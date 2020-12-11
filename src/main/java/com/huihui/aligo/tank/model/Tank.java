@@ -29,8 +29,8 @@ public class Tank {
     /**
      * 坦克的长宽(从图片获取)
      */
-    private static final int WIDTH = ResourceManager.tankL.getWidth();
-    private static final int HEIGHT = ResourceManager.tankL.getHeight();
+    public static final int WIDTH = ResourceManager.tankL.getWidth();
+    public static final int HEIGHT = ResourceManager.tankL.getHeight();
     /**
      * 步进
      */
@@ -39,6 +39,10 @@ public class Tank {
      * 移动状态
      */
     private boolean moving = false;
+    /**
+     * 坦克的存活状态
+     */
+    private boolean living = true;
     /**
      * 坦克持有窗口
      */
@@ -84,7 +88,11 @@ public class Tank {
      * @param graphics
      */
     private void paintTank(Graphics graphics) {
-        //graphics.fillRect( x, y, width, height );
+        if (!living) {
+            tankFrame.getTanks().remove( this );
+            //只渲染存活状态的坦克
+            return;
+        }
 
         switch (dir) {
             case LEFT:
@@ -127,5 +135,17 @@ public class Tank {
             default:
                 break;
         }
+        //限制坦克的坐标，必须在界面范围内
+        x = x > TankFrame.GAME_WIDTH ? TankFrame.WIDTH : x;
+        y = y > TankFrame.GAME_HEIGHT ? TankFrame.HEIGHT : y;
     }
+
+
+    /**
+     * 销毁坦克
+     */
+    public void die() {
+        this.living = false;
+    }
+
 }

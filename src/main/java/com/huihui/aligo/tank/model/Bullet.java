@@ -34,6 +34,10 @@ public class Bullet {
      */
     private Dir dir;
     /**
+     * 子弹存活状态
+     */
+    private boolean living = true;
+    /**
      * 子弹持有窗口引用
      */
     private TankFrame tankFrame;
@@ -59,11 +63,12 @@ public class Bullet {
      * @param graphics
      */
     public void paintBullet(Graphics graphics) {
-//        Color color = graphics.getColor();
-        //画子弹
-//        graphics.setColor( Color.RED );
-//        graphics.fillOval(x, y, WIDTH, HEIGHT);
-//        graphics.setColor( color );
+
+        if (!living) {
+            tankFrame.getBullets().remove( this );
+            //只渲染存活的子弹
+            return;
+        }
 
         switch (dir) {
             case LEFT:
@@ -104,11 +109,39 @@ public class Bullet {
                 break;
         }
 
+        //子弹超出界面范围，则销毁子弹
         if (x < 0 || y <0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_WIDTH) {
             tankFrame.removeBullet( this );
         }
+
+        //子弹移动过程中，若与某个坦克碰撞，则销毁子弹和坦克
+        for (Tank tank : tankFrame.getTanks()) {
+            collideWith( tank );
+        }
+
+
     }
 
+    /**
+     * 判断子弹是否与坦克碰撞
+     * @param tank
+     */
+    public void collideWith(Tank tank) {
+        Rectangle bulletRec = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
+        Rectangle tankRec = new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT);
+        if (bulletRec.intersects( tankRec )) {
+            tank.die();
+            this.die();
+        }
+    }
+
+
+    /**
+     * 销毁子弹
+     */
+    public void die() {
+        this.living = false;
+    }
 
 
 }

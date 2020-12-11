@@ -20,8 +20,10 @@ import java.util.List;
 @Data
 public class TankFrame extends Frame {
 
+    //主坦克
     private Tank tankA = new Tank( 100, 100 , Dir.RIGHT, this);
-//    private Tank tankB = new Tank( 400, 100 , Dir.RIGHT, this);
+    //敌方坦克
+    private List<Tank> tanks = new ArrayList<>();
 
     private List<Bullet> bullets = new ArrayList<>();
 
@@ -29,16 +31,21 @@ public class TankFrame extends Frame {
     Image offScreenImage = null;
 
     /**
-     * 定义窗口边界
+     * 定义窗口大小
      */
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
 
+    public static final int LOCATION_X = 300;
+    public static final int LOCATION_Y = 100;
+
+
     public TankFrame() {
         this.setResizable( false );
-        this.setTitle( "Tank" );
+        this.setTitle( "Tank @yiminghuihui77" );
         this.setSize( GAME_WIDTH, GAME_HEIGHT );
         this.setVisible( true );
+        this.setLocation( LOCATION_X, LOCATION_Y );
 
         //监听窗口事件
         addWindowListener( new WindowAdapter() {
@@ -57,9 +64,19 @@ public class TankFrame extends Frame {
      */
     @Override
     public void paint(Graphics graphics) {
+        Color color = graphics.getColor();
+        graphics.setColor( Color.GREEN );
         graphics.drawString( "子弹的数量：" + bullets.size() , 10, 60 );
+        graphics.drawString( "敌方坦克的数量：" + tanks.size() , 120, 60 );
+        graphics.setColor( color );
+
+        //渲染主坦克
         tankA.paint( graphics );
-//        tankB.paint( graphics );
+
+        //渲染多个敌方坦克
+        for (int i = 0;i < tanks.size();i++) {
+            tanks.get( i ).paint( graphics );
+        }
 
         //渲染多个子弹
 //        bullets.forEach( o -> {o.paint( graphics );} );
@@ -68,6 +85,9 @@ public class TankFrame extends Frame {
         for (int i = 0;i < bullets.size();i++) {
             bullets.get(i). paint( graphics );
         }
+
+        //界面背景
+        graphics.setColor( Color.BLACK );
     }
 
 
@@ -76,20 +96,20 @@ public class TankFrame extends Frame {
      * 在内存中先画好图片，在一次性写到屏幕
      * @param g
      */
-//    @Override
-//    public void update(Graphics g) {
-//        if (offScreenImage == null) {
-//            offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
-//        }
-//        //获取图片的画笔
-//        Graphics gOffScreen = offScreenImage.getGraphics();
-//        Color c = gOffScreen.getColor();
-//        gOffScreen.setColor(Color.BLACK);
-//        gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-//        gOffScreen.setColor(c);
-//        paint(gOffScreen);
-//        g.drawImage(offScreenImage, 0, 0, null);
-//    }
+    @Override
+    public void update(Graphics g) {
+        if (offScreenImage == null) {
+            offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
+        }
+        //获取图片的画笔
+        Graphics gOffScreen = offScreenImage.getGraphics();
+        Color c = gOffScreen.getColor();
+        gOffScreen.setColor(Color.BLACK);
+        gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        gOffScreen.setColor(c);
+        paint(gOffScreen);
+        g.drawImage(offScreenImage, 0, 0, null);
+    }
 
 
     /**
@@ -113,12 +133,12 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_RIGHT:
                     tankA.setDir( Dir.RIGHT );
                     break;
-                case KeyEvent.VK_SPACE:
-                    //按下空格，移动状态取反
+                case KeyEvent.VK_S:
+                    //按下S键，移动状态取反
                     tankA.setMoving( !tankA.isMoving() );
                     break;
-                case KeyEvent.VK_CONTROL:
-                    //按下ctrl键，坦克发射子弹
+                case KeyEvent.VK_SPACE:
+                    //按下空格键，坦克发射子弹
                     tankA.fire();
                     break;
                 default:

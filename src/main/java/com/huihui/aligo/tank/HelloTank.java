@@ -1,25 +1,31 @@
 package com.huihui.aligo.tank;
 
+import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.frame.TankFrame;
+import com.huihui.aligo.tank.model.Tank;
 
 import java.awt.*;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Frame初识：窗口类
+ * 启动类
  * @author minghui.y
  * @create 2020-12-10 8:26 下午
  **/
-public class HelloFrame {
+public class HelloTank {
 
     public static void main( String[] args ) throws InterruptedException {
-        Frame f = new TankFrame();
+        TankFrame frame = new TankFrame();
+
+        for (int i = 1;i < 5;i ++) {
+            frame.getTanks().add( new Tank( 100 + i * 100, 100 + i * 100, Dir.RIGHT, frame ) );
+        }
 
         while (true) {
             //不断刷新，坦克会根据方向自己移动
-            Thread.sleep( 500 );
-            f.repaint();
+            Thread.sleep( 200 );
+            frame.repaint();
         }
     }
 
