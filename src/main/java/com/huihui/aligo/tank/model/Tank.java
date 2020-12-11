@@ -26,9 +26,11 @@ public class Tank {
      */
     private int x;
     private int y;
-
-    private int width = 50;
-    private int height = 50;
+    /**
+     * 坦克的长宽(从图片获取)
+     */
+    private static final int WIDTH = ResourceManager.tankL.getWidth();
+    private static final int HEIGHT = ResourceManager.tankL.getHeight();
     /**
      * 步进
      */
@@ -63,9 +65,17 @@ public class Tank {
 
     }
 
+    /**
+     * 坦克发射子弹
+     * 每发射一次，新建一个子弹
+     */
     public void fire() {
         //每次发射，创建一个子弹
-        tankFrame.getBullets().add( new Bullet( this.x, this.y, this.dir , this.tankFrame) );
+        //计算子弹发射的坐标点
+        int bx = this.x + WIDTH / 2 - Bullet.WIDTH;
+        int by = this.y + HEIGHT / 2 - Bullet.HEIGHT;
+        //子弹方向与坦克的方向保持一致
+        tankFrame.getBullets().add( new Bullet( bx, by, this.dir , this.tankFrame) );
     }
 
 

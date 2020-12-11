@@ -11,14 +11,22 @@ import java.awt.image.BufferedImage;
  **/
 public class ResourceManager {
 
-    public static BufferedImage tankL, tankR, tankU, tankD;
+    public static BufferedImage tankL, tankR, tankU, tankD, bulletL, bulletR, bulletU, bulletD;
 
     static {
         try {
+            //加载坦克图片
             tankL = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/tankL.gif" ) );
             tankR = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/tankR.gif" ) );
             tankU = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/tankU.gif" ) );
             tankD = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/tankD.gif" ) );
+
+            //加载子弹图片
+            bulletL = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/bulletL.gif" ) );
+            bulletR = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/bulletR.gif" ) );
+            bulletU = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/bulletU.gif" ) );
+            bulletD = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/bulletD.gif" ) );
+
 
         } catch (Exception e) {
             e.printStackTrace();
