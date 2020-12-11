@@ -3,6 +3,7 @@ package com.huihui.aligo.tank;
 import com.huihui.aligo.tank.frame.TankFrame;
 
 import java.awt.*;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,7 +17,8 @@ public class HelloFrame {
         Frame f = new TankFrame();
 
         while (true) {
-            TimeUnit.MILLISECONDS.sleep( 500 );
+            //不断刷新，坦克会根据方向自己移动
+            Thread.sleep( 500 );
             f.repaint();
         }
     }
