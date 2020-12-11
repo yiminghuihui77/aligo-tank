@@ -1,9 +1,11 @@
 package com.huihui.aligo.tank.model;
 
-import com.huihui.aligo.tank.ResourceManager;
+import com.huihui.aligo.tank.utils.ResourceManager;
 import com.huihui.aligo.tank.constant.Dir;
+import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.frame.TankFrame;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 
@@ -13,7 +15,8 @@ import java.awt.*;
  * @author minghui.y
  * @create 2020-12-11 11:32 上午
  **/
-@Data
+@Getter
+@Setter
 public class Bullet {
     /**
      * 子弹坐标
@@ -34,6 +37,10 @@ public class Bullet {
      */
     private Dir dir;
     /**
+     * 子弹分组
+     */
+    private Group group;
+    /**
      * 子弹存活状态
      */
     private boolean living = true;
@@ -42,10 +49,11 @@ public class Bullet {
      */
     private TankFrame tankFrame;
 
-    public Bullet(int x, int y, Dir dir, TankFrame tankFrame) {
+    public Bullet(int x, int y, Dir dir, Group group, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.group = group;
         this.tankFrame = tankFrame;
     }
 
@@ -127,11 +135,19 @@ public class Bullet {
      * @param tank
      */
     public void collideWith(Tank tank) {
+        //如果目标坦克是友军，不检测碰撞
+        if (this.group.equals( tank.getGroup() )) {
+            return;
+        }
+        //TODO 每次渲染都会new，待优化
         Rectangle bulletRec = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
         Rectangle tankRec = new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT);
         if (bulletRec.intersects( tankRec )) {
+            //子弹&坦克发生碰撞
             tank.die();
             this.die();
+            //窗口添加炸弹
+            tankFrame.getExplodes().add( new Explode( this.x, this.y, tankFrame ) );
         }
     }
 

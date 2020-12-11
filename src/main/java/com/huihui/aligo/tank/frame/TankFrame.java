@@ -1,9 +1,13 @@
 package com.huihui.aligo.tank.frame;
 
 import com.huihui.aligo.tank.constant.Dir;
+import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.model.Bullet;
+import com.huihui.aligo.tank.model.Explode;
 import com.huihui.aligo.tank.model.Tank;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -17,15 +21,18 @@ import java.util.List;
  * @author minghui.y
  * @create 2020-12-10 9:57 下午
  **/
-@Data
+@Getter
+@Setter
 public class TankFrame extends Frame {
 
     //主坦克
-    private Tank tankA = new Tank( 100, 100 , Dir.RIGHT, this);
+    private Tank tankA = new Tank( 100, 100 , Dir.RIGHT, Group.GOOD, this);
     //敌方坦克
     private List<Tank> tanks = new ArrayList<>();
-
+    //子弹
     private List<Bullet> bullets = new ArrayList<>();
+    //爆炸
+    private List<Explode> explodes = new ArrayList<>();
 
     //避免闪烁
     Image offScreenImage = null;
@@ -68,6 +75,7 @@ public class TankFrame extends Frame {
         graphics.setColor( Color.GREEN );
         graphics.drawString( "子弹的数量：" + bullets.size() , 10, 60 );
         graphics.drawString( "敌方坦克的数量：" + tanks.size() , 120, 60 );
+        graphics.drawString( "炸弹数量" + explodes.size() , 10, 80 );
         graphics.setColor( color );
 
         //渲染主坦克
@@ -86,8 +94,14 @@ public class TankFrame extends Frame {
             bullets.get(i). paint( graphics );
         }
 
+        //炸弹渲染
+        for (int i = 0;i < explodes.size();i++) {
+            explodes.get( i ).paint( graphics );
+        }
+
         //界面背景
         graphics.setColor( Color.BLACK );
+
     }
 
 

@@ -1,12 +1,14 @@
 package com.huihui.aligo.tank.model;
 
-import com.huihui.aligo.tank.ResourceManager;
+import com.huihui.aligo.tank.utils.ResourceManager;
 import com.huihui.aligo.tank.constant.Dir;
+import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.frame.TankFrame;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * 坦克model
@@ -17,10 +19,16 @@ import java.awt.*;
 @Getter
 @Setter
 public class Tank {
+
+    /**
+     * 坦克分组
+     */
+    private Group group;
     /**
      * 方向
      */
     private Dir dir;
+    private Dir[] availableDirs = new Dir[]{Dir.UP, Dir.DOWN, Dir.LEFT, Dir.RIGHT};
     /**
      * 平面坐标
      */
@@ -38,19 +46,24 @@ public class Tank {
     /**
      * 移动状态
      */
-    private boolean moving = false;
+    private boolean moving = true;
     /**
      * 坦克的存活状态
      */
     private boolean living = true;
+    /**
+     * 随机
+     */
+    private Random random = new Random();
     /**
      * 坦克持有窗口
      */
     private TankFrame tankFrame;
 
 
-    public Tank( int x, int y , Dir dir, TankFrame tankFrame) {
+    public Tank( int x, int y , Dir dir, Group group,  TankFrame tankFrame) {
         this.dir = dir;
+        this.group = group;
         this.x = x;
         this.y = y;
         this.tankFrame = tankFrame;
@@ -67,6 +80,23 @@ public class Tank {
         //移动坦克
         move();
 
+        //敌方坦克随机开火&方向
+        if (Group.BAD.equals( this.group )) {
+            //随机
+            if (random.nextInt(10) > 8) {
+                fire();
+                changeDir();
+            }
+
+        }
+
+    }
+
+    /**
+     * 随机改变坦克方向
+     */
+    private void changeDir() {
+        this.dir = this.availableDirs[random.nextInt(4)];
     }
 
     /**
@@ -78,8 +108,8 @@ public class Tank {
         //计算子弹发射的坐标点
         int bx = this.x + WIDTH / 2 - Bullet.WIDTH;
         int by = this.y + HEIGHT / 2 - Bullet.HEIGHT;
-        //子弹方向与坦克的方向保持一致
-        tankFrame.getBullets().add( new Bullet( bx, by, this.dir , this.tankFrame) );
+        //子弹方向与坦克的方向保持一致；坦克打出的子弹不会误伤自己和友军
+        tankFrame.getBullets().add( new Bullet( bx, by, this.dir, this.group, this.tankFrame) );
     }
 
 

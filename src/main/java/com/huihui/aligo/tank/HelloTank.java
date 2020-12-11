@@ -1,6 +1,7 @@
 package com.huihui.aligo.tank;
 
 import com.huihui.aligo.tank.constant.Dir;
+import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.frame.TankFrame;
 import com.huihui.aligo.tank.model.Tank;
 
@@ -19,7 +20,8 @@ public class HelloTank {
         TankFrame frame = new TankFrame();
 
         for (int i = 1;i < 5;i ++) {
-            frame.getTanks().add( new Tank( 100 + i * 100, 100 + i * 100, Dir.RIGHT, frame ) );
+            //创建四个敌方坦克
+            frame.getTanks().add( new Tank( 100 + i * 100, 100 + i * 100, Dir.RIGHT, Group.BAD, frame ) );
         }
 
         while (true) {
