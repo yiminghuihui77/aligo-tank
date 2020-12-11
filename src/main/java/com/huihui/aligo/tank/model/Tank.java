@@ -169,8 +169,22 @@ public class Tank {
                 break;
         }
         //限制坦克的坐标，必须在界面范围内
-        x = x > TankFrame.GAME_WIDTH ? TankFrame.WIDTH : x;
-        y = y > TankFrame.GAME_HEIGHT ? TankFrame.HEIGHT : y;
+        checkBound();
+    }
+
+    private void checkBound() {
+        if (this.x < 0) {
+            x = 0;
+        }
+        if (this.x > TankFrame.GAME_WIDTH - WIDTH) {
+            x = TankFrame.GAME_WIDTH - WIDTH;
+        }
+        if (y < 30) {
+            y = 30;
+        }
+        if (y > TankFrame.GAME_WIDTH - HEIGHT) {
+            y = TankFrame.GAME_HEIGHT - HEIGHT;
+        }
     }
 
 
