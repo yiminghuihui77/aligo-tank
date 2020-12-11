@@ -12,19 +12,33 @@ import java.awt.image.BufferedImage;
 public class ResourceManager {
 
     /**
-     * 坦克&子弹的图片资源
+     * 坦克的图片资源
      */
-    public static BufferedImage tankL, tankR, tankU, tankD, bulletL, bulletR, bulletU, bulletD;
+    public static BufferedImage badTankL, badTankR, badTankU, badTankD;
+    public static BufferedImage goodTankL, goodTankR, goodTankU, goodTankD;
+
+    /**
+     * 子弹图片
+     */
+    public static BufferedImage bulletL, bulletR, bulletU, bulletD;
 
     public static BufferedImage[] explodes = new BufferedImage[16];
 
     static {
         try {
-            //加载坦克图片
-            tankU = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/tankU.gif" ) );
-            tankL = ImageUtil.rotateImage( tankU, -90 );
-            tankR = ImageUtil.rotateImage( tankU, 90 );
-            tankD = ImageUtil.rotateImage( tankU, 180 );
+            //加载敌方坦克图片
+            badTankU = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/BadTank1.png" ) );
+            badTankL = ImageUtil.rotateImage( badTankU, -90 );
+            badTankR = ImageUtil.rotateImage( badTankU, 90 );
+            badTankD = ImageUtil.rotateImage( badTankU, 180 );
+
+            //加载友军坦克图片
+            goodTankU = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/GoodTank1.png" ) );
+            goodTankL = ImageUtil.rotateImage( goodTankU, -90 );
+            goodTankR = ImageUtil.rotateImage( goodTankU, 90 );
+            goodTankD = ImageUtil.rotateImage( goodTankU, 180 );
+
+
 
             //加载子弹图片
             bulletU = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/bulletU.gif" ) );

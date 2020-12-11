@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 子弹model
@@ -123,7 +125,10 @@ public class Bullet {
         }
 
         //子弹移动过程中，若与某个坦克碰撞，则销毁子弹和坦克
-        for (Tank tank : tankFrame.getTanks()) {
+        List<Tank> allTanks = new ArrayList<>();
+        allTanks.addAll( tankFrame.getTanks() );
+        allTanks.add( tankFrame.getTankA() );
+        for (Tank tank : allTanks) {
             collideWith( tank );
         }
 
@@ -146,8 +151,11 @@ public class Bullet {
             //子弹&坦克发生碰撞
             tank.die();
             this.die();
-            //窗口添加炸弹
-            tankFrame.getExplodes().add( new Explode( this.x, this.y, tankFrame ) );
+
+            //添加炸弹
+            int ex = tank.getX() + (Tank.WIDTH / 2) - (Explode.WIDTH / 2) ;
+            int ey = tank.getY() + (Tank.HEIGHT / 2) - (Explode.HEIGHT / 2) ;
+            tankFrame.getExplodes().add( new Explode( ex, ey, tankFrame ) );
         }
     }
 

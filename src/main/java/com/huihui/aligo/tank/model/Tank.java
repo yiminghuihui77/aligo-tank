@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 /**
@@ -37,8 +38,8 @@ public class Tank {
     /**
      * 坦克的长宽(从图片获取)
      */
-    public static final int WIDTH = ResourceManager.tankL.getWidth();
-    public static final int HEIGHT = ResourceManager.tankL.getHeight();
+    public static final int WIDTH = ResourceManager.badTankL.getWidth();
+    public static final int HEIGHT = ResourceManager.badTankL.getHeight();
     /**
      * 步进
      */
@@ -106,8 +107,8 @@ public class Tank {
     public void fire() {
         //每次发射，创建一个子弹
         //计算子弹发射的坐标点
-        int bx = this.x + WIDTH / 2 - Bullet.WIDTH;
-        int by = this.y + HEIGHT / 2 - Bullet.HEIGHT;
+        int bx = this.x + (WIDTH / 2) - (Bullet.WIDTH / 2);
+        int by = this.y + (HEIGHT / 2) - (Bullet.HEIGHT / 2);
         //子弹方向与坦克的方向保持一致；坦克打出的子弹不会误伤自己和友军
         tankFrame.getBullets().add( new Bullet( bx, by, this.dir, this.group, this.tankFrame) );
     }
@@ -124,22 +125,24 @@ public class Tank {
             return;
         }
 
+        //根据坦克分组&方向获取坦克图片资源
         switch (dir) {
             case LEFT:
-                graphics.drawImage( ResourceManager.tankL, x, y, null );
+                graphics.drawImage( Group.GOOD.equals( group ) ? ResourceManager.goodTankL : ResourceManager.badTankL, x, y, null );
                 break;
             case RIGHT:
-                graphics.drawImage( ResourceManager.tankR, x, y, null );
+                graphics.drawImage( Group.GOOD.equals( group ) ? ResourceManager.goodTankR :ResourceManager.badTankR, x, y, null );
                 break;
             case UP:
-                graphics.drawImage( ResourceManager.tankU, x, y, null );
+                graphics.drawImage( Group.GOOD.equals( group ) ? ResourceManager.goodTankU :ResourceManager.badTankU, x, y, null );
                 break;
             case DOWN:
-                graphics.drawImage( ResourceManager.tankD, x, y , null );
+                graphics.drawImage( Group.GOOD.equals( group ) ? ResourceManager.goodTankD :ResourceManager.badTankD, x, y , null );
             default:
                 break;
         }
     }
+
 
     /**
      * 坦克移动
