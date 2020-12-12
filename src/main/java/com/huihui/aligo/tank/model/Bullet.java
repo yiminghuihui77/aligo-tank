@@ -26,6 +26,11 @@ public class Bullet {
     private int x;
     private int y;
     /**
+     * 子弹&坦克所在矩形（用于碰撞检测）
+     */
+    private Rectangle bulletRec;
+    private Rectangle tankRec;
+    /**
      * 子弹步进
      */
     private static final int SPEED = 20;
@@ -57,6 +62,8 @@ public class Bullet {
         this.dir = dir;
         this.group = group;
         this.tankFrame = tankFrame;
+        this.bulletRec = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
+        this.tankRec = new Rectangle(0, 0, Tank.WIDTH, Tank.HEIGHT);
     }
 
     public void paint( Graphics graphics ) {
@@ -144,9 +151,13 @@ public class Bullet {
         if (this.group.equals( tank.getGroup() )) {
             return;
         }
-        //TODO 每次渲染都会new，待优化
-        Rectangle bulletRec = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
-        Rectangle tankRec = new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT);
+        //修改子弹矩形坐标
+        bulletRec.x = this.x;
+        bulletRec.y = this.y;
+        //修改坦克矩形坐标
+        tankRec.x = tank.getX();
+        tankRec.y = tank.getY();
+        //两个矩形是否重叠
         if (bulletRec.intersects( tankRec )) {
             //子弹&坦克发生碰撞
             tank.die();
