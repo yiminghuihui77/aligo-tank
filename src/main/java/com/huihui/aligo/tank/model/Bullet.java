@@ -1,5 +1,6 @@
 package com.huihui.aligo.tank.model;
 
+import com.huihui.aligo.tank.utils.PropertyManager;
 import com.huihui.aligo.tank.utils.ResourceManager;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
@@ -33,7 +34,10 @@ public class Bullet {
     /**
      * 子弹步进
      */
-    private static final int SPEED = 20;
+    private static final int SPEED;
+    static {
+        SPEED = PropertyManager.getInt( "bulletSpeed" );
+    }
     /**
      * 子弹长宽
      */
@@ -135,6 +139,7 @@ public class Bullet {
         List<Tank> allTanks = new ArrayList<>();
         allTanks.addAll( tankFrame.getTanks() );
         allTanks.add( tankFrame.getTankA() );
+        allTanks.add( tankFrame.getTankB() );
         for (Tank tank : allTanks) {
             collideWith( tank );
         }

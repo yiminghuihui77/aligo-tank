@@ -1,5 +1,6 @@
 package com.huihui.aligo.tank.model;
 
+import com.huihui.aligo.tank.utils.PropertyManager;
 import com.huihui.aligo.tank.utils.ResourceManager;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
@@ -43,7 +44,11 @@ public class Tank {
     /**
      * 步进
      */
-    private final int SPEED = 10;
+    private final static int SPEED;
+
+    static {
+        SPEED = PropertyManager.getInt( "tankSpeed" );
+    }
     /**
      * 移动状态
      */

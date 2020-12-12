@@ -4,6 +4,7 @@ import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.frame.TankFrame;
 import com.huihui.aligo.tank.model.Tank;
+import com.huihui.aligo.tank.utils.PropertyManager;
 
 import java.awt.*;
 import java.util.concurrent.ThreadFactory;
@@ -19,7 +20,8 @@ public class HelloTank {
     public static void main( String[] args ) throws InterruptedException {
         TankFrame frame = new TankFrame();
 
-        for (int i = 1;i < 5;i ++) {
+        int badTankNumber = PropertyManager.getInt( "badTankNumber" );
+        for (int i = 1;i < (badTankNumber + 1);i ++) {
             //创建四个敌方坦克
             frame.getTanks().add( new Tank( 100 + i * 100, 100 + i * 100, Dir.RIGHT, Group.BAD, frame ) );
         }
