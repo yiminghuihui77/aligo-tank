@@ -28,7 +28,7 @@ public class HelloTank {
 
         while (true) {
             //不断刷新，坦克会根据方向自己移动
-            Thread.sleep( 200 );
+            Thread.sleep( 150 );
             frame.repaint();
         }
     }
