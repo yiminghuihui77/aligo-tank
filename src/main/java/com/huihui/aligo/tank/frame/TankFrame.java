@@ -5,13 +5,12 @@ import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.model.Bullet;
 import com.huihui.aligo.tank.model.Explode;
 import com.huihui.aligo.tank.model.Tank;
-import lombok.Data;
+import com.huihui.aligo.tank.strategy.KeyAdapter4PlayerA;
+import com.huihui.aligo.tank.strategy.KeyAdapter4PlayerB;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -27,6 +26,8 @@ public class TankFrame extends Frame {
 
     //主坦克
     private Tank tankA = new Tank( 100, 100 , Dir.RIGHT, Group.GOOD, this);
+    private Tank tankB = new Tank( 600, 100 , Dir.RIGHT, Group.GOOD, this);
+
     //敌方坦克
     private List<Tank> tanks = new ArrayList<>();
     //子弹
@@ -62,7 +63,8 @@ public class TankFrame extends Frame {
             }
         } );
         //监听键盘事件
-        addKeyListener(new TankKeyAdapter());
+        addKeyListener(new KeyAdapter4PlayerA( this ) );
+        addKeyListener(new KeyAdapter4PlayerB( this ) );
     }
 
 
@@ -80,6 +82,7 @@ public class TankFrame extends Frame {
 
         //渲染主坦克
         tankA.paint( graphics );
+        tankB.paint( graphics );
 
         //渲染多个敌方坦克
         for (int i = 0;i < tanks.size();i++) {
@@ -123,45 +126,6 @@ public class TankFrame extends Frame {
         gOffScreen.setColor(c);
         paint(gOffScreen);
         g.drawImage(offScreenImage, 0, 0, null);
-    }
-
-
-    /**
-     * 键盘监控适配器
-     */
-    private class TankKeyAdapter extends KeyAdapter {
-        @Override
-        public void keyPressed( KeyEvent e ) {
-            //获取键信息
-            int key = e.getKeyCode();
-            switch (key) {
-                case KeyEvent.VK_UP:
-                    tankA.setDir( Dir.UP );
-                    break;
-                case KeyEvent.VK_DOWN:
-                    tankA.setDir( Dir.DOWN );
-                    break;
-                case KeyEvent.VK_LEFT:
-                    tankA.setDir( Dir.LEFT );
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    tankA.setDir( Dir.RIGHT );
-                    break;
-                case KeyEvent.VK_S:
-                    //按下S键，移动状态取反
-                    tankA.setMoving( !tankA.isMoving() );
-                    break;
-                case KeyEvent.VK_SPACE:
-                    //按下空格键，坦克发射子弹
-                    tankA.fire();
-                    break;
-                default:
-                    break;
-            }
-
-            //通知系统重新paint
-            repaint();
-        }
     }
 
 

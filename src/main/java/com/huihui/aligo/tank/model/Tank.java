@@ -172,6 +172,9 @@ public class Tank {
         checkBound();
     }
 
+    /**
+     * 边界检测
+     */
     private void checkBound() {
         if (this.x < 0) {
             x = 0;
