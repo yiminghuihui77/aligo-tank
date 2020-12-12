@@ -5,8 +5,9 @@ import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.model.Bullet;
 import com.huihui.aligo.tank.model.Explode;
 import com.huihui.aligo.tank.model.Tank;
-import com.huihui.aligo.tank.strategy.KeyAdapter4PlayerA;
-import com.huihui.aligo.tank.strategy.KeyAdapter4PlayerB;
+import com.huihui.aligo.tank.strategy.fire.MultiFireStrategy;
+import com.huihui.aligo.tank.strategy.key.KeyAdapter4PlayerA;
+import com.huihui.aligo.tank.strategy.key.KeyAdapter4PlayerB;
 import lombok.Getter;
 import lombok.Setter;
 

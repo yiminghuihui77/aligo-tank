@@ -1,4 +1,4 @@
-package com.huihui.aligo.tank.strategy;
+package com.huihui.aligo.tank.strategy.key;
 
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.frame.TankFrame;
@@ -7,19 +7,19 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 /**
- * 玩家B键盘监听
+ * 玩家A键盘监听
  *
  * @author minghui.y
  * @create 2020-12-12 2:48 下午
  **/
-public class KeyAdapter4PlayerB extends KeyAdapter {
+public class KeyAdapter4PlayerA  extends KeyAdapter {
 
     /**
      * 窗口
      */
     private TankFrame tankFrame;
 
-    public KeyAdapter4PlayerB( TankFrame tankFrame) {
+    public KeyAdapter4PlayerA(TankFrame tankFrame) {
         this.tankFrame = tankFrame;
     }
 
@@ -32,25 +32,25 @@ public class KeyAdapter4PlayerB extends KeyAdapter {
         //获取键信息
         int key = e.getKeyCode();
         switch (key) {
-            case KeyEvent.VK_W:
-                tankFrame.getTankB().setDir( Dir.UP );
+            case KeyEvent.VK_UP:
+                tankFrame.getTankA().setDir( Dir.UP );
                 break;
-            case KeyEvent.VK_S:
-                tankFrame.getTankB().setDir( Dir.DOWN );
+            case KeyEvent.VK_DOWN:
+                tankFrame.getTankA().setDir( Dir.DOWN );
                 break;
-            case KeyEvent.VK_A:
-                tankFrame.getTankB().setDir( Dir.LEFT );
+            case KeyEvent.VK_LEFT:
+                tankFrame.getTankA().setDir( Dir.LEFT );
                 break;
-            case KeyEvent.VK_D:
-                tankFrame.getTankB().setDir( Dir.RIGHT );
+            case KeyEvent.VK_RIGHT:
+                tankFrame.getTankA().setDir( Dir.RIGHT );
                 break;
-            case KeyEvent.VK_Z:
-                //按下Z键，移动状态取反
-                tankFrame.getTankB().setMoving( !tankFrame.getTankB().isMoving() );
+            case KeyEvent.VK_ENTER:
+                //按下回车，移动状态取反
+                tankFrame.getTankA().setMoving( !tankFrame.getTankA().isMoving() );
                 break;
-            case KeyEvent.VK_F:
+            case KeyEvent.VK_SPACE:
                 //按下空格键，坦克发射子弹
-                tankFrame.getTankB().fire();
+                tankFrame.getTankA().fire();
                 break;
             default:
                 break;

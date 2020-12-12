@@ -1,15 +1,17 @@
 package com.huihui.aligo.tank.model;
 
-import com.huihui.aligo.tank.utils.PropertyManager;
-import com.huihui.aligo.tank.utils.ResourceManager;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.frame.TankFrame;
+import com.huihui.aligo.tank.strategy.fire.FireStrategy;
+import com.huihui.aligo.tank.strategy.fire.MultiFireStrategy;
+import com.huihui.aligo.tank.strategy.fire.SimpleFireStrategy;
+import com.huihui.aligo.tank.utils.PropertyManager;
+import com.huihui.aligo.tank.utils.ResourceManager;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 
 /**
@@ -65,14 +67,35 @@ public class Tank {
      * 坦克持有窗口
      */
     private TankFrame tankFrame;
+    /**
+     * 坦克默认开火策略：单方向开火
+     */
+    private FireStrategy fireStrategy;
 
 
-    public Tank( int x, int y , Dir dir, Group group,  TankFrame tankFrame) {
+    public Tank( int x, int y , Dir dir, Group group, TankFrame tankFrame) {
         this.dir = dir;
         this.group = group;
         this.x = x;
         this.y = y;
         this.tankFrame = tankFrame;
+
+        //开火策略
+        String fireStrategyName;
+        if (Group.GOOD.equals( group )) {
+            //从配置文件中获取开火策略的全称类名
+            fireStrategyName = PropertyManager.getString( "goodTankFireStrategy" );
+        } else {
+            fireStrategyName = PropertyManager.getString( "badTankFireStrategy" );
+        }
+        //反射获取开火策略
+        try {
+            fireStrategy = (FireStrategy) Class.forName( fireStrategyName ).newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     /**
@@ -110,12 +133,7 @@ public class Tank {
      * 每发射一次，新建一个子弹
      */
     public void fire() {
-        //每次发射，创建一个子弹
-        //计算子弹发射的坐标点
-        int bx = this.x + (WIDTH / 2) - (Bullet.WIDTH / 2);
-        int by = this.y + (HEIGHT / 2) - (Bullet.HEIGHT / 2);
-        //子弹方向与坦克的方向保持一致；坦克打出的子弹不会误伤自己和友军
-        tankFrame.getBullets().add( new Bullet( bx, by, this.dir, this.group, this.tankFrame) );
+        fireStrategy.fire( this );
     }
 
 
