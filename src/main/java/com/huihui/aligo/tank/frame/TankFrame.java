@@ -1,11 +1,12 @@
 package com.huihui.aligo.tank.frame;
 
+import com.huihui.aligo.tank.abstractFactory.MultiGameFactory;
+import com.huihui.aligo.tank.abstractFactory.SimpleGameFactory;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
+import com.huihui.aligo.tank.model.BaseTank;
 import com.huihui.aligo.tank.model.Bullet;
 import com.huihui.aligo.tank.model.Explode;
-import com.huihui.aligo.tank.model.Tank;
-import com.huihui.aligo.tank.strategy.fire.MultiFireStrategy;
 import com.huihui.aligo.tank.strategy.key.KeyAdapter4PlayerA;
 import com.huihui.aligo.tank.strategy.key.KeyAdapter4PlayerB;
 import lombok.Getter;
@@ -26,11 +27,11 @@ import java.util.List;
 public class TankFrame extends Frame {
 
     //主坦克
-    private Tank tankA = new Tank( 100, 100 , Dir.RIGHT, Group.GOOD, this);
-    private Tank tankB = new Tank( 600, 100 , Dir.RIGHT, Group.GOOD, this);
+    private BaseTank tankA = MultiGameFactory.getInstance().createTank( 100, 100 , Dir.RIGHT, Group.GOOD, this );
+    private BaseTank tankB = MultiGameFactory.getInstance().createTank( 600, 100 , Dir.RIGHT, Group.GOOD, this);
 
     //敌方坦克
-    private List<Tank> tanks = new ArrayList<>();
+    private List<BaseTank> tanks = new ArrayList<>();
     //子弹
     private List<Bullet> bullets = new ArrayList<>();
     //爆炸

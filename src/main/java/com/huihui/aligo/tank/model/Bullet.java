@@ -1,10 +1,10 @@
 package com.huihui.aligo.tank.model;
 
-import com.huihui.aligo.tank.utils.PropertyManager;
-import com.huihui.aligo.tank.utils.ResourceManager;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.frame.TankFrame;
+import com.huihui.aligo.tank.utils.PropertyManager;
+import com.huihui.aligo.tank.utils.ResourceManager;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -67,7 +67,7 @@ public class Bullet {
         this.group = group;
         this.tankFrame = tankFrame;
         this.bulletRec = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
-        this.tankRec = new Rectangle(0, 0, Tank.WIDTH, Tank.HEIGHT);
+        this.tankRec = new Rectangle(0, 0, BaseTank.WIDTH, BaseTank.HEIGHT);
     }
 
     public void paint( Graphics graphics ) {
@@ -136,11 +136,11 @@ public class Bullet {
         }
 
         //子弹移动过程中，若与某个坦克碰撞，则销毁子弹和坦克
-        List<Tank> allTanks = new ArrayList<>();
+        List<BaseTank> allTanks = new ArrayList<>();
         allTanks.addAll( tankFrame.getTanks() );
         allTanks.add( tankFrame.getTankA() );
         allTanks.add( tankFrame.getTankB() );
-        for (Tank tank : allTanks) {
+        for (BaseTank tank : allTanks) {
             collideWith( tank );
         }
 
@@ -151,7 +151,7 @@ public class Bullet {
      * 判断子弹是否与坦克碰撞
      * @param tank
      */
-    public void collideWith(Tank tank) {
+    public void collideWith( BaseTank tank) {
         //如果目标坦克是友军，不检测碰撞
         if (this.group.equals( tank.getGroup() )) {
             return;
@@ -169,8 +169,8 @@ public class Bullet {
             this.die();
 
             //添加炸弹
-            int ex = tank.getX() + (Tank.WIDTH / 2) - (Explode.WIDTH / 2) ;
-            int ey = tank.getY() + (Tank.HEIGHT / 2) - (Explode.HEIGHT / 2) ;
+            int ex = tank.getX() + (BaseTank.WIDTH / 2) - (Explode.WIDTH / 2) ;
+            int ey = tank.getY() + (BaseTank.HEIGHT / 2) - (Explode.HEIGHT / 2) ;
             tankFrame.getExplodes().add( new Explode( ex, ey, tankFrame ) );
         }
     }

@@ -1,14 +1,10 @@
 package com.huihui.aligo.tank;
 
+import com.huihui.aligo.tank.abstractFactory.SimpleGameFactory;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.frame.TankFrame;
-import com.huihui.aligo.tank.model.Tank;
 import com.huihui.aligo.tank.utils.PropertyManager;
-
-import java.awt.*;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 启动类
@@ -23,7 +19,7 @@ public class HelloTank {
         int badTankNumber = PropertyManager.getInt( "badTankNumber" );
         for (int i = 1;i < (badTankNumber + 1);i ++) {
             //创建四个敌方坦克
-            frame.getTanks().add( new Tank( 100 + i * 100, 100 + i * 100, Dir.RIGHT, Group.BAD, frame ) );
+            frame.getTanks().add( SimpleGameFactory.getInstance().createTank( 100 + i * 100, 100 + i * 100, Dir.RIGHT, Group.BAD, frame  ) );
         }
 
         while (true) {
