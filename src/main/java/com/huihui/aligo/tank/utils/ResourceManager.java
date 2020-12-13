@@ -32,7 +32,11 @@ public class ResourceManager {
      */
     public static BufferedImage bulletL, bulletR, bulletU, bulletD;
 
+    /**
+     * multi 炸弹
+     */
     public static BufferedImage[] explodes = new BufferedImage[16];
+    public static BufferedImage[] simpleExplodes = new BufferedImage[11];
 
     static {
         try {
@@ -72,9 +76,13 @@ public class ResourceManager {
             bulletR = ImageUtil.rotateImage( bulletU, 90 );
             bulletD = ImageUtil.rotateImage( bulletU, 180 );
 
-            //爆炸效果💥
+            //加载multi样式的炸弹
             for(int i = 0;i < 16; i++) {
                 explodes[i] = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/e" + (i + 1) + ".gif" ) );
+            }
+            //加载simple样式的炸弹
+            for (int i = 0;i < 11;i ++) {
+                simpleExplodes[i] = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/" + i + ".gif" ));
             }
 
         } catch (Exception e) {

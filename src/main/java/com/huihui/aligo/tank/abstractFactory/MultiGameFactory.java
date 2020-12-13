@@ -30,7 +30,7 @@ public class MultiGameFactory extends AbstractGameFactory {
     }
 
     @Override
-    public BaseExplode createExplode() {
-        return null;
+    public BaseExplode createExplode(int x, int y, TankFrame tankFrame) {
+        return new MultiExplode( x, y, tankFrame );
     }
 }

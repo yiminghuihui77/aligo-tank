@@ -1,5 +1,7 @@
 package com.huihui.aligo.tank.model;
 
+import com.huihui.aligo.tank.abstractFactory.MultiGameFactory;
+import com.huihui.aligo.tank.abstractFactory.SimpleGameFactory;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.frame.TankFrame;
@@ -171,7 +173,10 @@ public class Bullet {
             //添加炸弹
             int ex = tank.getX() + (BaseTank.WIDTH / 2) - (Explode.WIDTH / 2) ;
             int ey = tank.getY() + (BaseTank.HEIGHT / 2) - (Explode.HEIGHT / 2) ;
-            tankFrame.getExplodes().add( new Explode( ex, ey, tankFrame ) );
+            //友军打出multi的炸弹；敌军打出simple的炸弹
+            tankFrame.getExplodes().add( Group.GOOD.equals( this.group ) ?
+                    MultiGameFactory.getInstance().createExplode( ex, ey, tankFrame ) :
+                    SimpleGameFactory.getInstance().createExplode( ex, ey, tankFrame ) );
         }
     }
 

@@ -20,6 +20,6 @@ public abstract class AbstractGameFactory {
 
     public abstract BaseBullet createBullet();
 
-    public abstract BaseExplode createExplode();
+    public abstract BaseExplode createExplode(int x, int y, TankFrame tankFrame);
 
 }

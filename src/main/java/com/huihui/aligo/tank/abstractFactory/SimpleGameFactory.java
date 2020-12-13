@@ -36,7 +36,7 @@ public class SimpleGameFactory extends AbstractGameFactory {
     }
 
     @Override
-    public BaseExplode createExplode() {
-        return null;
+    public BaseExplode createExplode(int x, int y, TankFrame tankFrame) {
+        return new SimpleExplode( x, y, tankFrame );
     }
 }
