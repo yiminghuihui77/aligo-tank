@@ -6,6 +6,10 @@ import com.huihui.aligo.tank.frame.TankFrame;
 import com.huihui.aligo.tank.model.*;
 
 /**
+ * 复杂样式的工厂
+ * 设计模式：
+ * 单例模式
+ * 抽象工厂
  * @author minghui.y
  * @create 2020-12-12 10:16 下午
  **/
@@ -25,8 +29,8 @@ public class MultiGameFactory extends AbstractGameFactory {
     }
 
     @Override
-    public BaseBullet createBullet() {
-        return null;
+    public BaseBullet createBullet(int x, int y, Dir dir, Group group, TankFrame tankFrame) {
+        return new MultiBullet( x, y, dir, group, tankFrame );
     }
 
     @Override

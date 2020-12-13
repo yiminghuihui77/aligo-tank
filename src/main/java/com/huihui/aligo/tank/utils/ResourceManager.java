@@ -29,8 +29,14 @@ public class ResourceManager {
 
     /**
      * 子弹图片
+     * simple
      */
     public static BufferedImage bulletL, bulletR, bulletU, bulletD;
+    /**
+     * 子弹图片
+     * multi
+     */
+    public static BufferedImage multiBulletL, multiBulletR, multiBulletU, multiBulletD;
 
     /**
      * multi 炸弹
@@ -44,6 +50,9 @@ public class ResourceManager {
             String badMultiTankStyle = PropertyManager.getString( "badMultiTankStyle" );
             String goodMultiTankStyle = PropertyManager.getString( "goodMultiTankStyle" );
             String simpleTankStyle = PropertyManager.getString( "simpleTankStyle" );
+            //子弹样式
+            String simpleBulletStyle = PropertyManager.getString( "simpleBulletStyle" );
+            String multiBulletStyle = PropertyManager.getString( "multiBulletStyle" );
 
             //复杂样式坦克
             //加载敌方坦克图片
@@ -70,11 +79,16 @@ public class ResourceManager {
             goodSimpleTankD = badSimpleTankD;
 
 
-            //加载子弹图片
-            bulletU = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( "images/bulletU.gif" ) );
+            //加载simple样式的子弹
+            bulletU = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( simpleBulletStyle ) );
             bulletL = ImageUtil.rotateImage( bulletU, -90 );
             bulletR = ImageUtil.rotateImage( bulletU, 90 );
             bulletD = ImageUtil.rotateImage( bulletU, 180 );
+            //加载multi样式的子弹
+            multiBulletU = ImageIO.read( ResourceManager.class.getClassLoader().getResourceAsStream( multiBulletStyle ) );
+            multiBulletD = multiBulletU;
+            multiBulletL = multiBulletU;
+            multiBulletR = multiBulletU;
 
             //加载multi样式的炸弹
             for(int i = 0;i < 16; i++) {

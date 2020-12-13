@@ -1,6 +1,8 @@
 package com.huihui.aligo.tank.model;
 
 import com.huihui.aligo.tank.frame.TankFrame;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,6 +13,8 @@ import java.awt.image.BufferedImage;
  * @author minghui.y
  * @create 2020-12-12 11:43 下午
  **/
+@Getter
+@Setter
 public abstract class BaseExplode {
 
     public static int WIDTH;

@@ -12,8 +12,6 @@ public class PropertyManager {
 
     private PropertyManager() {}
 
-//    private static PropertyManager INSTANCE = new PropertyManager();
-
     static Properties properties = new Properties();
 
     static {
@@ -35,10 +33,5 @@ public class PropertyManager {
 
     public static int getInt(String key) {
         return Integer.parseInt( properties.getProperty( key ) );
-    }
-
-
-    public static void main( String[] args ) {
-        System.out.println(PropertyManager.getString( "badTankNumber" ));
     }
 }

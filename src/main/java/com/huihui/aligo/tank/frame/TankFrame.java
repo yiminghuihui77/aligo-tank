@@ -3,9 +3,9 @@ package com.huihui.aligo.tank.frame;
 import com.huihui.aligo.tank.abstractFactory.MultiGameFactory;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
+import com.huihui.aligo.tank.model.BaseBullet;
 import com.huihui.aligo.tank.model.BaseExplode;
 import com.huihui.aligo.tank.model.BaseTank;
-import com.huihui.aligo.tank.model.Bullet;
 import com.huihui.aligo.tank.strategy.key.KeyAdapter4PlayerA;
 import com.huihui.aligo.tank.strategy.key.KeyAdapter4PlayerB;
 import lombok.Getter;
@@ -32,7 +32,7 @@ public class TankFrame extends Frame {
     //敌方坦克
     private List<BaseTank> tanks = new ArrayList<>();
     //子弹
-    private List<Bullet> bullets = new ArrayList<>();
+    private List<BaseBullet> bullets = new ArrayList<>();
     //爆炸
     private List<BaseExplode> explodes = new ArrayList<>();
 
@@ -134,7 +134,7 @@ public class TankFrame extends Frame {
      * 当子弹移出界面范围，销毁子弹，避免内存移出
      * @param bullet
      */
-    public void removeBullet(Bullet bullet) {
+    public void removeBullet(BaseBullet bullet) {
         bullets.remove( bullet );
     }
 

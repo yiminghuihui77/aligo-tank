@@ -1,8 +1,9 @@
 package com.huihui.aligo.tank.strategy.fire;
 
+import com.huihui.aligo.tank.abstractFactory.MultiGameFactory;
 import com.huihui.aligo.tank.constant.Dir;
+import com.huihui.aligo.tank.model.BaseBullet;
 import com.huihui.aligo.tank.model.BaseTank;
-import com.huihui.aligo.tank.model.Bullet;
 
 /**
  * 四个方向同时开火策略
@@ -17,13 +18,13 @@ public class MultiFireStrategy implements FireStrategy {
     public void fire( BaseTank tank ) {
         //每次发射，创建一个子弹
         //计算子弹发射的坐标点
-        int bx = tank.getX() + (BaseTank.WIDTH / 2) - (Bullet.WIDTH / 2);
-        int by = tank.getY() + (BaseTank.HEIGHT / 2) - (Bullet.HEIGHT / 2);
+        int bx = tank.getX() + (BaseTank.WIDTH / 2) - (BaseBullet.WIDTH / 2);
+        int by = tank.getY() + (BaseTank.HEIGHT / 2) - (BaseBullet.HEIGHT / 2);
         //子弹方向与坦克的方向保持一致；坦克打出的子弹不会误伤自己和友军
-        tank.getTankFrame().getBullets().add( new Bullet( bx, by, Dir.UP, tank.getGroup(), tank.getTankFrame()) );
-        tank.getTankFrame().getBullets().add( new Bullet( bx, by, Dir.DOWN, tank.getGroup(), tank.getTankFrame()) );
-        tank.getTankFrame().getBullets().add( new Bullet( bx, by, Dir.LEFT, tank.getGroup(), tank.getTankFrame()) );
-        tank.getTankFrame().getBullets().add( new Bullet( bx, by, Dir.RIGHT, tank.getGroup(), tank.getTankFrame()) );
+        tank.getTankFrame().getBullets().add( MultiGameFactory.getInstance().createBullet(  bx, by, Dir.UP, tank.getGroup(), tank.getTankFrame() ));
+        tank.getTankFrame().getBullets().add( MultiGameFactory.getInstance().createBullet(  bx, by, Dir.DOWN, tank.getGroup(), tank.getTankFrame() ) );
+        tank.getTankFrame().getBullets().add( MultiGameFactory.getInstance().createBullet(  bx, by, Dir.LEFT, tank.getGroup(), tank.getTankFrame() ));
+        tank.getTankFrame().getBullets().add( MultiGameFactory.getInstance().createBullet(  bx, by, Dir.RIGHT, tank.getGroup(), tank.getTankFrame() ) );
 
     }
 }
