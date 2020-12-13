@@ -21,10 +21,10 @@ public class MultiFireStrategy implements FireStrategy {
         int bx = tank.getX() + (BaseTank.WIDTH / 2) - (BaseBullet.WIDTH / 2);
         int by = tank.getY() + (BaseTank.HEIGHT / 2) - (BaseBullet.HEIGHT / 2);
         //子弹方向与坦克的方向保持一致；坦克打出的子弹不会误伤自己和友军
-        tank.getTankFrame().getBullets().add( MultiGameFactory.getInstance().createBullet(  bx, by, Dir.UP, tank.getGroup(), tank.getTankFrame() ));
-        tank.getTankFrame().getBullets().add( MultiGameFactory.getInstance().createBullet(  bx, by, Dir.DOWN, tank.getGroup(), tank.getTankFrame() ) );
-        tank.getTankFrame().getBullets().add( MultiGameFactory.getInstance().createBullet(  bx, by, Dir.LEFT, tank.getGroup(), tank.getTankFrame() ));
-        tank.getTankFrame().getBullets().add( MultiGameFactory.getInstance().createBullet(  bx, by, Dir.RIGHT, tank.getGroup(), tank.getTankFrame() ) );
+        tank.getGameModel().getBullets().add( MultiGameFactory.getInstance().createBullet(  bx, by, Dir.UP, tank.getGroup(), tank.getGameModel() ));
+        tank.getGameModel().getBullets().add( MultiGameFactory.getInstance().createBullet(  bx, by, Dir.DOWN, tank.getGroup(), tank.getGameModel() ) );
+        tank.getGameModel().getBullets().add( MultiGameFactory.getInstance().createBullet(  bx, by, Dir.LEFT, tank.getGroup(), tank.getGameModel() ));
+        tank.getGameModel().getBullets().add( MultiGameFactory.getInstance().createBullet(  bx, by, Dir.RIGHT, tank.getGroup(), tank.getGameModel() ) );
 
     }
 }

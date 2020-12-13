@@ -1,11 +1,6 @@
 package com.huihui.aligo.tank.frame;
 
-import com.huihui.aligo.tank.abstractFactory.MultiGameFactory;
-import com.huihui.aligo.tank.constant.Dir;
-import com.huihui.aligo.tank.constant.Group;
-import com.huihui.aligo.tank.model.BaseBullet;
-import com.huihui.aligo.tank.model.BaseExplode;
-import com.huihui.aligo.tank.model.BaseTank;
+import com.huihui.aligo.tank.model.GameModel;
 import com.huihui.aligo.tank.strategy.key.KeyAdapter4PlayerA;
 import com.huihui.aligo.tank.strategy.key.KeyAdapter4PlayerB;
 import lombok.Getter;
@@ -14,8 +9,6 @@ import lombok.Setter;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author minghui.y
@@ -25,16 +18,10 @@ import java.util.List;
 @Setter
 public class TankFrame extends Frame {
 
-    //主坦克
-    private BaseTank tankA = MultiGameFactory.getInstance().createTank( 100, 100 , Dir.RIGHT, Group.GOOD, this );
-    private BaseTank tankB = MultiGameFactory.getInstance().createTank( 600, 100 , Dir.RIGHT, Group.GOOD, this);
-
-    //敌方坦克
-    private List<BaseTank> tanks = new ArrayList<>();
-    //子弹
-    private List<BaseBullet> bullets = new ArrayList<>();
-    //爆炸
-    private List<BaseExplode> explodes = new ArrayList<>();
+    /**
+     * 门面模式，TankFrame通过GameModel与各类model交互
+     */
+    private GameModel gameModel = GameModel.getInstance();
 
     //避免闪烁
     Image offScreenImage = null;
@@ -64,8 +51,8 @@ public class TankFrame extends Frame {
             }
         } );
         //监听键盘事件
-        addKeyListener(new KeyAdapter4PlayerA( this ) );
-        addKeyListener(new KeyAdapter4PlayerB( this ) );
+        addKeyListener(new KeyAdapter4PlayerA( gameModel ) );
+        addKeyListener(new KeyAdapter4PlayerB( gameModel ) );
     }
 
 
@@ -74,37 +61,8 @@ public class TankFrame extends Frame {
      */
     @Override
     public void paint(Graphics graphics) {
-        Color color = graphics.getColor();
-        graphics.setColor( Color.GREEN );
-        graphics.drawString( "子弹的数量：" + bullets.size() , 10, 60 );
-        graphics.drawString( "敌方坦克的数量：" + tanks.size() , 120, 60 );
-        graphics.drawString( "炸弹数量" + explodes.size() , 10, 80 );
-        graphics.setColor( color );
-
-        //渲染主坦克
-        tankA.paint( graphics );
-        tankB.paint( graphics );
-
-        //渲染多个敌方坦克
-        for (int i = 0;i < tanks.size();i++) {
-            tanks.get( i ).paint( graphics );
-        }
-
-        //渲染多个子弹
-//        bullets.forEach( o -> {o.paint( graphics );} );
-        //注意：Bullet.move()方法中有对bullets集合做删除动作，不能使用forEach或者迭代器方式遍历集合
-        //否则抛出ConcurrentModificationException异常
-        for (int i = 0;i < bullets.size();i++) {
-            bullets.get(i). paint( graphics );
-        }
-
-        //炸弹渲染
-        for (int i = 0;i < explodes.size();i++) {
-            explodes.get( i ).paint( graphics );
-        }
-
-        //界面背景
-        graphics.setColor( Color.BLACK );
+        //通过门面模式交互
+        gameModel.paint( graphics );
 
     }
 
@@ -130,13 +88,7 @@ public class TankFrame extends Frame {
     }
 
 
-    /**
-     * 当子弹移出界面范围，销毁子弹，避免内存移出
-     * @param bullet
-     */
-    public void removeBullet(BaseBullet bullet) {
-        bullets.remove( bullet );
-    }
+
 
 
 }

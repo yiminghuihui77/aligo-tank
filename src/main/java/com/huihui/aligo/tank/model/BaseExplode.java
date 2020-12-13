@@ -1,6 +1,5 @@
 package com.huihui.aligo.tank.model;
 
-import com.huihui.aligo.tank.frame.TankFrame;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,15 +29,15 @@ public abstract class BaseExplode {
     private int x;
     private int y;
     /**
-     * 窗口
+     * 门面模式
      */
-    private TankFrame tankFrame;
+    private GameModel gameModel;
 
 
-    public BaseExplode(int x, int y, TankFrame tankFrame) {
+    public BaseExplode(int x, int y, GameModel gameModel) {
         this.x = x;
         this.y = y;
-        this.tankFrame = tankFrame;
+        this.gameModel = gameModel;
         WIDTH = getExplodes()[0].getWidth();
         HEIGHT = getExplodes()[0].getHeight();
     }
@@ -54,7 +53,7 @@ public abstract class BaseExplode {
        //炸弹帧数达到最好一帧，则销毁炸弹
         if (step >= getExplodes().length) {
             //销毁炸弹
-            tankFrame.getExplodes().remove( this );
+            gameModel.getExplodes().remove( this );
         }
     }
 

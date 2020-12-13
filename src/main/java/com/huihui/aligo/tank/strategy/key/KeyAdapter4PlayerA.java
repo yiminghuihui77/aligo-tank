@@ -1,7 +1,7 @@
 package com.huihui.aligo.tank.strategy.key;
 
 import com.huihui.aligo.tank.constant.Dir;
-import com.huihui.aligo.tank.frame.TankFrame;
+import com.huihui.aligo.tank.model.GameModel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -17,10 +17,10 @@ public class KeyAdapter4PlayerA  extends KeyAdapter {
     /**
      * 窗口
      */
-    private TankFrame tankFrame;
+    private GameModel gameModel;
 
-    public KeyAdapter4PlayerA(TankFrame tankFrame) {
-        this.tankFrame = tankFrame;
+    public KeyAdapter4PlayerA(GameModel gameModel) {
+        this.gameModel= gameModel;
     }
 
     /**
@@ -33,24 +33,24 @@ public class KeyAdapter4PlayerA  extends KeyAdapter {
         int key = e.getKeyCode();
         switch (key) {
             case KeyEvent.VK_UP:
-                tankFrame.getTankA().setDir( Dir.UP );
+                gameModel.getTankA().setDir( Dir.UP );
                 break;
             case KeyEvent.VK_DOWN:
-                tankFrame.getTankA().setDir( Dir.DOWN );
+                gameModel.getTankA().setDir( Dir.DOWN );
                 break;
             case KeyEvent.VK_LEFT:
-                tankFrame.getTankA().setDir( Dir.LEFT );
+                gameModel.getTankA().setDir( Dir.LEFT );
                 break;
             case KeyEvent.VK_RIGHT:
-                tankFrame.getTankA().setDir( Dir.RIGHT );
+                gameModel.getTankA().setDir( Dir.RIGHT );
                 break;
             case KeyEvent.VK_ENTER:
                 //按下回车，移动状态取反
-                tankFrame.getTankA().setMoving( !tankFrame.getTankA().isMoving() );
+                gameModel.getTankA().setMoving( !gameModel.getTankA().isMoving() );
                 break;
             case KeyEvent.VK_SPACE:
                 //按下空格键，坦克发射子弹
-                tankFrame.getTankA().fire();
+                gameModel.getTankA().fire();
                 break;
             default:
                 break;

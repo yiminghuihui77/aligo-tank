@@ -1,6 +1,5 @@
 package com.huihui.aligo.tank.model;
 
-import com.huihui.aligo.tank.frame.TankFrame;
 import com.huihui.aligo.tank.utils.ResourceManager;
 
 import java.awt.image.BufferedImage;
@@ -14,8 +13,8 @@ import java.awt.image.BufferedImage;
 public class SimpleExplode extends BaseExplode {
 
 
-    public SimpleExplode( int x, int y, TankFrame tankFrame ) {
-        super( x, y, tankFrame );
+    public SimpleExplode( int x, int y, GameModel gameModel ) {
+        super( x, y, gameModel );
     }
 
     @Override

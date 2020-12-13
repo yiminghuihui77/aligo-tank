@@ -21,9 +21,10 @@ _@CSDN_: <https://blog.csdn.net/SomeoneMH>
  
     * 责任链
     
-    * 门面模式
+    * 门面模式(Facade): View(TankFrame)和各类model（坦克、子弹、爆炸）之间都存在交互
+                       引入GameModel作为门面，相当于隔离了V和M。所有的维护工作聚集在GameModel中完成即可
     
-    * 调停者模式
+    * 调停者模式(Mediator):
     
     
 

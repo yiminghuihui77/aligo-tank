@@ -50,9 +50,9 @@ public abstract class BaseTank {
      */
     private boolean living = true;
     /**
-     * 坦克持有窗口
+     * 门面模式
      */
-    private TankFrame tankFrame;
+    private GameModel gameModel;
     /**
      * 移动状态
      */
@@ -70,12 +70,12 @@ public abstract class BaseTank {
     private FireStrategy fireStrategy;
 
 
-    public BaseTank( int x, int y , Dir dir, Group group, TankFrame tankFrame) {
+    public BaseTank( int x, int y , Dir dir, Group group, GameModel gameModel) {
         this.dir = dir;
         this.group = group;
         this.x = x;
         this.y = y;
-        this.tankFrame = tankFrame;
+        this.gameModel = gameModel;
 
         //开火策略
         String fireStrategyName;
@@ -125,7 +125,7 @@ public abstract class BaseTank {
      */
     private void paintTank(Graphics graphics) {
         if (!living) {
-            tankFrame.getTanks().remove( this );
+            gameModel.getTanks().remove( this );
             //只渲染存活状态的坦克
             return;
         }

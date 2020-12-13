@@ -2,7 +2,6 @@ package com.huihui.aligo.tank.abstractFactory;
 
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
-import com.huihui.aligo.tank.frame.TankFrame;
 import com.huihui.aligo.tank.model.*;
 
 /**
@@ -24,17 +23,17 @@ public class MultiGameFactory extends AbstractGameFactory {
     }
 
     @Override
-    public BaseTank createTank( int x, int y, Dir dir, Group group, TankFrame tankFrame ) {
-        return new MultiTank( x, y, dir, group, tankFrame );
+    public BaseTank createTank( int x, int y, Dir dir, Group group, GameModel gameModel ) {
+        return new MultiTank( x, y, dir, group, gameModel );
     }
 
     @Override
-    public BaseBullet createBullet(int x, int y, Dir dir, Group group, TankFrame tankFrame) {
-        return new MultiBullet( x, y, dir, group, tankFrame );
+    public BaseBullet createBullet(int x, int y, Dir dir, Group group, GameModel gameModel) {
+        return new MultiBullet( x, y, dir, group, gameModel );
     }
 
     @Override
-    public BaseExplode createExplode(int x, int y, TankFrame tankFrame) {
-        return new MultiExplode( x, y, tankFrame );
+    public BaseExplode createExplode(int x, int y, GameModel gameModel) {
+        return new MultiExplode( x, y, gameModel );
     }
 }

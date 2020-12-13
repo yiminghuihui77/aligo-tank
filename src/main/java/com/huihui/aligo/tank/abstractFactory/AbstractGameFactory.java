@@ -16,10 +16,10 @@ import com.huihui.aligo.tank.model.*;
  **/
 public abstract class AbstractGameFactory {
 
-    public abstract BaseTank createTank( int x, int y , Dir dir, Group group, TankFrame tankFrame);
+    public abstract BaseTank createTank( int x, int y , Dir dir, Group group, GameModel gameModel);
 
-    public abstract BaseBullet createBullet(int x, int y, Dir dir, Group group, TankFrame tankFrame);
+    public abstract BaseBullet createBullet(int x, int y, Dir dir, Group group, GameModel gameModel);
 
-    public abstract BaseExplode createExplode(int x, int y, TankFrame tankFrame);
+    public abstract BaseExplode createExplode(int x, int y, GameModel gameModel);
 
 }

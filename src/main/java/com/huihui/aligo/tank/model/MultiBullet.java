@@ -2,7 +2,6 @@ package com.huihui.aligo.tank.model;
 
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
-import com.huihui.aligo.tank.frame.TankFrame;
 import com.huihui.aligo.tank.utils.ResourceManager;
 
 import java.awt.image.BufferedImage;
@@ -15,8 +14,8 @@ import java.awt.image.BufferedImage;
  **/
 public class MultiBullet extends BaseBullet {
 
-    public MultiBullet( int x, int y, Dir dir, Group group, TankFrame tankFrame ) {
-        super( x, y, dir, group, tankFrame );
+    public MultiBullet( int x, int y, Dir dir, Group group, GameModel gameModel ) {
+        super( x, y, dir, group, gameModel );
     }
 
     @Override

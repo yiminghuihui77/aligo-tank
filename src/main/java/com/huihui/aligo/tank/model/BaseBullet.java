@@ -61,15 +61,15 @@ public abstract class BaseBullet {
     /**
      * 子弹持有窗口引用
      */
-    private TankFrame tankFrame;
+    private GameModel gameModel;
 
 
-    public BaseBullet(int x, int y, Dir dir, Group group, TankFrame tankFrame) {
+    public BaseBullet(int x, int y, Dir dir, Group group, GameModel gameModel) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
-        this.tankFrame = tankFrame;
+        this.gameModel = gameModel;
         this.bulletRec = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
         this.tankRec = new Rectangle(0, 0, BaseTank.WIDTH, BaseTank.HEIGHT);
         WIDTH = getBullet4U().getWidth();
@@ -97,7 +97,7 @@ public abstract class BaseBullet {
     public void paintBullet(Graphics graphics) {
 
         if (!living) {
-            tankFrame.getBullets().remove( this );
+            gameModel.getBullets().remove( this );
             //只渲染存活的子弹
             return;
         }
@@ -153,14 +153,14 @@ public abstract class BaseBullet {
 
         //子弹超出界面范围，则销毁子弹
         if (x < 0 || y <0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_WIDTH) {
-            tankFrame.removeBullet( this );
+            gameModel.removeBullet( this );
         }
 
         //子弹移动过程中，若与某个坦克碰撞，则销毁子弹和坦克
         List<BaseTank> allTanks = new ArrayList<>();
-        allTanks.addAll( tankFrame.getTanks() );
-        allTanks.add( tankFrame.getTankA() );
-        allTanks.add( tankFrame.getTankB() );
+        allTanks.addAll( gameModel.getTanks() );
+        allTanks.add( gameModel.getTankA() );
+        allTanks.add( gameModel.getTankB() );
         for (BaseTank tank : allTanks) {
             collideWith( tank );
         }
@@ -192,9 +192,9 @@ public abstract class BaseBullet {
             int ex = tank.getX() + (BaseTank.WIDTH / 2) - (BaseExplode.WIDTH / 2) ;
             int ey = tank.getY() + (BaseTank.HEIGHT / 2) - (BaseExplode.HEIGHT / 2) ;
             //友军打出multi的炸弹；敌军打出simple的炸弹
-            tankFrame.getExplodes().add( Group.GOOD.equals( this.group ) ?
-                    MultiGameFactory.getInstance().createExplode( ex, ey, tankFrame ) :
-                    SimpleGameFactory.getInstance().createExplode( ex, ey, tankFrame ) );
+            gameModel.getExplodes().add( Group.GOOD.equals( this.group ) ?
+                    MultiGameFactory.getInstance().createExplode( ex, ey, gameModel ) :
+                    SimpleGameFactory.getInstance().createExplode( ex, ey, gameModel ) );
         }
     }
 
