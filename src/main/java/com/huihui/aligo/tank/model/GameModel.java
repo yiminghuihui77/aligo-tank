@@ -55,10 +55,10 @@ public class GameModel {
         allModels.add( tankB );
 
         //敌军坦克
-        badTankNumber = PropertyManager.getInt( "badTankNumber" );
+        int badTankNumber = PropertyManager.getInt( "badTankNumber" );
         for (int i = 1;i < (badTankNumber + 1);i ++) {
             //创建四个敌方坦克
-            allModels.add( SimpleGameFactory.getInstance().createTank( 100 + i * 100, 100 + i * 100, Dir.RIGHT, Group.BAD, this  ) );
+            addModel( SimpleGameFactory.getInstance().createTank( 100 + i * 100, 100 + i * 100, Dir.RIGHT, Group.BAD, this  ) );
         }
 
         //创建四个实体墙（这里突出了抽象工厂不适合扩展产品的缺点）
@@ -112,6 +112,17 @@ public class GameModel {
      * @param model
      */
     public void addModel(BaseModel model) {
+        if (model instanceof BaseBullet) {
+            bulletNumber++;
+        }
+        if (model instanceof BaseTank) {
+            if (Group.BAD.equals( ((BaseTank) model).getGroup() )) {
+                badTankNumber++;
+            }
+        }
+        if (model instanceof BaseExplode) {
+            explodeNumber++;
+        }
         allModels.add( model );
     }
 
@@ -120,6 +131,17 @@ public class GameModel {
      * @param model
      */
     public void removeModel(BaseModel model) {
+        if (model instanceof BaseBullet) {
+            bulletNumber--;
+        }
+        if (model instanceof BaseTank) {
+            if (Group.BAD.equals( ((BaseTank) model).getGroup() )) {
+                badTankNumber--;
+            }
+        }
+        if (model instanceof BaseExplode) {
+            explodeNumber--;
+        }
         allModels.remove( model );
     }
 
