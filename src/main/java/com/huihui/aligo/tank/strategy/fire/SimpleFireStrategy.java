@@ -24,7 +24,7 @@ public class SimpleFireStrategy implements FireStrategy {
         int bx = tank.getX() + (BaseTank.WIDTH / 2) - (BaseBullet.WIDTH / 2);
         int by = tank.getY() + (BaseTank.HEIGHT / 2) - (BaseBullet.HEIGHT / 2);
         //子弹方向与坦克的方向保持一致；坦克打出的子弹不会误伤自己和友军
-        tank.getGameModel().getBullets().add( SimpleGameFactory.getInstance().createBullet( bx, by, tank.getDir(), tank.getGroup(), tank.getGameModel() ) );
+        tank.getGameModel().getAllModels().add( SimpleGameFactory.getInstance().createBullet( bx, by, tank.getDir(), tank.getGroup(), tank.getGameModel() ) );
 
         //开火声音
 //        if(tank.getGroup() == Group.GOOD) new Thread(()->new Audio("audio/tank_fire.wav").play()).start();

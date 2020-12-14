@@ -19,12 +19,13 @@ _@CSDN_: <https://blog.csdn.net/SomeoneMH>
  
     * 模板方法：坦克、子弹、爆炸的抽象基类中，定义了获取样式的抽象方法，由子类实现
  
-    * 责任链
+    * 责任链: 各类model之间的碰撞检测，通过责任链处理
     
     * 门面模式(Facade): View(TankFrame)和各类model（坦克、子弹、爆炸）之间都存在交互
-                       引入GameModel作为门面，相当于隔离了V和M。所有的维护工作聚集在GameModel中完成即可
+                       引入GameModel作为门面，相当于隔离了V和M
+    * 调停者模式(Mediator): 所有model之间的冲突检测，都交给GameModel处理，各个model之间无直接接触
     
-    * 调停者模式(Mediator):
+    * 观察者模式(Observer): 
     
     
 

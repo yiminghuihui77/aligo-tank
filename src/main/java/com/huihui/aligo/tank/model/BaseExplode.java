@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
  **/
 @Getter
 @Setter
-public abstract class BaseExplode {
+public abstract class BaseExplode extends BaseModel {
 
     public static int WIDTH;
     public static int HEIGHT;
@@ -23,11 +23,6 @@ public abstract class BaseExplode {
      * 炸弹帧数
      */
     private int step;
-    /**
-     * 炸弹坐标
-     */
-    private int x;
-    private int y;
     /**
      * 门面模式
      */
@@ -47,13 +42,14 @@ public abstract class BaseExplode {
      * 渲染炸弹
      * @param graphics
      */
+    @Override
     public void paint( Graphics graphics) {
         //渲染炸弹
         graphics.drawImage( getExplodes()[step++], x, y, null);
        //炸弹帧数达到最好一帧，则销毁炸弹
         if (step >= getExplodes().length) {
             //销毁炸弹
-            gameModel.getExplodes().remove( this );
+            gameModel.removeModel( this );
         }
     }
 

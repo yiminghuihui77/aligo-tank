@@ -20,17 +20,19 @@ import java.util.Random;
  **/
 @Setter
 @Getter
-public abstract class BaseTank {
+public abstract class BaseTank extends BaseModel {
+
+    /**
+     * 坦克在移动之前的位置
+     * 用于坦克&坦克之间碰撞检测策略
+     */
+    private int oldX;
+    private int oldY;
 
     /**
      * 坦克分组
      */
     private Group group;
-    /**
-     * 平面坐标
-     */
-    private int x;
-    private int y;
     /**
      * 坦克长宽
      */
@@ -101,6 +103,7 @@ public abstract class BaseTank {
      * 坦克自己控制方向和移动
      * @param graphics
      */
+    @Override
     public void paint( Graphics graphics) {
         //画出坦克
         paintTank( graphics );
@@ -125,7 +128,7 @@ public abstract class BaseTank {
      */
     private void paintTank(Graphics graphics) {
         if (!living) {
-            gameModel.getTanks().remove( this );
+            gameModel.removeModel( this );
             //只渲染存活状态的坦克
             return;
         }
@@ -171,6 +174,10 @@ public abstract class BaseTank {
         if (!moving) {
             return;
         }
+
+        //记录坦克移动之前的位置，用于坦克间碰撞的冲突检测
+        oldX = x;
+        oldY = y;
         switch (dir) {
             case UP:
                 y -= SPEED;

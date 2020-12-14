@@ -1,7 +1,5 @@
 package com.huihui.aligo.tank.model;
 
-import com.huihui.aligo.tank.abstractFactory.MultiGameFactory;
-import com.huihui.aligo.tank.abstractFactory.SimpleGameFactory;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.frame.TankFrame;
@@ -11,8 +9,6 @@ import lombok.Setter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 子弹的抽象父类
@@ -22,13 +18,8 @@ import java.util.List;
  **/
 @Getter
 @Setter
-public abstract class BaseBullet {
+public abstract class BaseBullet extends BaseModel {
 
-    /**
-     * 子弹坐标
-     */
-    private int x;
-    private int y;
     /**
      * 子弹&坦克所在矩形（用于碰撞检测）
      */
@@ -81,6 +72,7 @@ public abstract class BaseBullet {
      * 渲染子弹
      * @param graphics
      */
+    @Override
     public void paint( Graphics graphics ) {
         //画图形子弹
         paintBullet( graphics );
@@ -97,7 +89,7 @@ public abstract class BaseBullet {
     public void paintBullet(Graphics graphics) {
 
         if (!living) {
-            gameModel.getBullets().remove( this );
+            gameModel.removeModel( this );
             //只渲染存活的子弹
             return;
         }
@@ -153,50 +145,12 @@ public abstract class BaseBullet {
 
         //子弹超出界面范围，则销毁子弹
         if (x < 0 || y <0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_WIDTH) {
-            gameModel.removeBullet( this );
-        }
-
-        //子弹移动过程中，若与某个坦克碰撞，则销毁子弹和坦克
-        List<BaseTank> allTanks = new ArrayList<>();
-        allTanks.addAll( gameModel.getTanks() );
-        allTanks.add( gameModel.getTankA() );
-        allTanks.add( gameModel.getTankB() );
-        for (BaseTank tank : allTanks) {
-            collideWith( tank );
+            gameModel.removeModel( this );
         }
     }
 
 
-    /**
-     * 判断子弹是否与坦克碰撞
-     * @param tank
-     */
-    public void collideWith( BaseTank tank) {
-        //如果目标坦克是友军，不检测碰撞
-        if (this.group.equals( tank.getGroup() )) {
-            return;
-        }
-        //修改子弹矩形坐标
-        bulletRec.x = this.x;
-        bulletRec.y = this.y;
-        //修改坦克矩形坐标
-        tankRec.x = tank.getX();
-        tankRec.y = tank.getY();
-        //两个矩形是否重叠
-        if (bulletRec.intersects( tankRec )) {
-            //子弹&坦克发生碰撞
-            tank.die();
-            this.die();
 
-            //添加炸弹
-            int ex = tank.getX() + (BaseTank.WIDTH / 2) - (BaseExplode.WIDTH / 2) ;
-            int ey = tank.getY() + (BaseTank.HEIGHT / 2) - (BaseExplode.HEIGHT / 2) ;
-            //友军打出multi的炸弹；敌军打出simple的炸弹
-            gameModel.getExplodes().add( Group.GOOD.equals( this.group ) ?
-                    MultiGameFactory.getInstance().createExplode( ex, ey, gameModel ) :
-                    SimpleGameFactory.getInstance().createExplode( ex, ey, gameModel ) );
-        }
-    }
 
 
     /**
