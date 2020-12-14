@@ -4,7 +4,7 @@ _@Date_: 2020-12-13
 _@Github_: <https://github.com/yiminghuihui77>  
 _@CSDN_: <https://blog.csdn.net/SomeoneMH>  
 
-![效果图](src/main/resources/images/效果图.png)
+![效果图](src/main/resources/images/效果图2.png)
 
 ##技术栈:
 
