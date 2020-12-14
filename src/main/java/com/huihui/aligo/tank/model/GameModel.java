@@ -2,9 +2,7 @@ package com.huihui.aligo.tank.model;
 
 import com.huihui.aligo.tank.abstractFactory.MultiGameFactory;
 import com.huihui.aligo.tank.abstractFactory.SimpleGameFactory;
-import com.huihui.aligo.tank.chain.BulletTankCollisionHandler;
-import com.huihui.aligo.tank.chain.CollisionHandler;
-import com.huihui.aligo.tank.chain.TankTankCollisionHandler;
+import com.huihui.aligo.tank.chain.*;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.utils.PropertyManager;
@@ -55,12 +53,21 @@ public class GameModel {
         tankB = MultiGameFactory.getInstance().createTank( 600, 100 , Dir.RIGHT, Group.GOOD, this);
         allModels.add( tankA );
         allModels.add( tankB );
+
         //敌军坦克
         badTankNumber = PropertyManager.getInt( "badTankNumber" );
         for (int i = 1;i < (badTankNumber + 1);i ++) {
             //创建四个敌方坦克
             allModels.add( SimpleGameFactory.getInstance().createTank( 100 + i * 100, 100 + i * 100, Dir.RIGHT, Group.BAD, this  ) );
         }
+
+        //创建四个实体墙（这里突出了抽象工厂不适合扩展产品的缺点）
+        allModels.add( new SimpleWall( 50, 150, 100, 50) );
+        allModels.add( new SimpleWall( 500, 150, 100, 50) );
+        allModels.add( new SimpleWall( 50, 500, 100, 50) );
+        allModels.add( new SimpleWall( 500, 500, 100, 50) );
+
+
     }
 
 
@@ -84,7 +91,10 @@ public class GameModel {
         //新建各种碰撞检测处理器
         CollisionHandler handler1 = new BulletTankCollisionHandler( "子弹&坦克碰撞处理器" );
         CollisionHandler handler2 = new TankTankCollisionHandler( "坦克&坦克碰撞处理器" );
-        handler1.setNext( handler2 );
+        CollisionHandler handler3 = new TankWallCollisionHandler( "坦克&墙碰撞处理器" );
+        CollisionHandler handler4 = new BulletWallCollisionHandler( "子弹&墙碰撞处理器" );
+        handler1.setNext( handler2 ).setNext( handler3 ).setNext( handler4 );
+
         for (int i = 0;i < allModels.size() - 1; i++) {
             for (int j = i + 1;j < allModels.size();j++) {
                 //交个责任链去处理model之间的碰撞检测
