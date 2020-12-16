@@ -3,6 +3,8 @@ package com.huihui.aligo.tank.model;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.frame.TankFrame;
+import com.huihui.aligo.tank.observer.FireEvent;
+import com.huihui.aligo.tank.observer.FireObserver;
 import com.huihui.aligo.tank.strategy.fire.FireStrategy;
 import com.huihui.aligo.tank.utils.PropertyManager;
 import lombok.Getter;
@@ -10,17 +12,24 @@ import lombok.Setter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
  * 坦克的抽象父类
- *
+ * （在观察者模式中，BaseTank也是被观察者）
  * @author minghui.y
  * @create 2020-12-12 11:41 下午
  **/
 @Setter
 @Getter
 public abstract class BaseTank extends BaseModel {
+
+    /**
+     * 开火监听器集合
+     */
+    List<FireObserver> fireObservers = new ArrayList<>();
 
     /**
      * 坦克在移动之前的位置
@@ -211,6 +220,8 @@ public abstract class BaseTank extends BaseModel {
      */
     public void fire() {
         fireStrategy.fire( this );
+        //发布开火事件
+        this.publishEvent();
     }
 
     /**
@@ -236,6 +247,22 @@ public abstract class BaseTank extends BaseModel {
      */
     public void die() {
         this.living = false;
+    }
+
+    /**
+     * 注册开火监听器
+     * @param observer
+     */
+    public void registerFireListener(FireObserver observer) {
+        this.fireObservers.add( observer );
+    }
+
+    /**
+     * 发布开火事件
+     */
+    public void publishEvent() {
+        FireEvent event = new FireEvent( this, "坦克开火事件" );
+        this.fireObservers.stream().forEach( o -> o.handleEvent( event ) );
     }
 
 }

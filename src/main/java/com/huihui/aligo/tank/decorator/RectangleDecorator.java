@@ -18,7 +18,10 @@ public class RectangleDecorator extends BaseDecorator {
 
     @Override
     public void paint( Graphics graphics ) {
-        model.paint( graphics );
+        this.x = model.getX();
+        this.y = model.getY();
+
+        model.paint(graphics);
         //增加装饰
         Color color = graphics.getColor();
         graphics.setColor( Color.WHITE );

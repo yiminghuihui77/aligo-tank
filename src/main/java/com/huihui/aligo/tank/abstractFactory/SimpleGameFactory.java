@@ -3,6 +3,8 @@ package com.huihui.aligo.tank.abstractFactory;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.model.*;
+import com.huihui.aligo.tank.observer.FrameFireObserver;
+import com.huihui.aligo.tank.observer.WallFireObserver;
 
 /**
  * 简单样式的工厂
@@ -28,7 +30,11 @@ public class SimpleGameFactory extends AbstractGameFactory {
 
     @Override
     public BaseTank createTank( int x, int y, Dir dir, Group group, GameModel gameModel ) {
-        return new SimpleTank( x, y, dir, group, gameModel );
+        BaseTank tank = new SimpleTank( x, y, dir, group, gameModel );
+        //注册开火监听器
+        tank.registerFireListener( new FrameFireObserver() );
+        tank.registerFireListener( new WallFireObserver() );
+        return tank;
     }
 
     @Override

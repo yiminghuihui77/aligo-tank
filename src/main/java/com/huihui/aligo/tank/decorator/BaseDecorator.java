@@ -15,6 +15,5 @@ public abstract class BaseDecorator extends BaseModel {
     public BaseDecorator(BaseModel model) {
         this.model = model;
     }
-
 }
 
