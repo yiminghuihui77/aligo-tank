@@ -37,6 +37,7 @@ _@CSDN_: <https://blog.csdn.net/SomeoneMH>
                           坦克作为被观察对象，开火动作出发开火事件，FrameFireObserver和WallFireObserver被注册用于监听开火事件
 
     * 组合模式(Composite): 类似于目录结构，文件夹中有子文件夹和文件。组合模式用于处理树状结构
+                          该模式暂未应用到坦克大战项目，仅写了个demo
 
 ###3、网络编程（Netty）
 
