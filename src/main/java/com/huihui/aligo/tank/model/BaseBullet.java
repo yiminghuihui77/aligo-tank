@@ -3,6 +3,7 @@ package com.huihui.aligo.tank.model;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.frame.TankFrame;
+import com.huihui.aligo.tank.proxy.Movable;
 import com.huihui.aligo.tank.utils.PropertyManager;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,7 @@ import java.awt.image.BufferedImage;
  **/
 @Getter
 @Setter
-public abstract class BaseBullet extends BaseModel {
+public abstract class BaseBullet extends BaseModel implements Movable {
 
     /**
      * 子弹&坦克所在矩形（用于碰撞检测）
@@ -125,7 +126,8 @@ public abstract class BaseBullet extends BaseModel {
     /**
      * 子弹移动
      */
-    private void move() {
+    @Override
+    public void move() {
         switch (dir) {
             case UP:
                 y -= SPEED;

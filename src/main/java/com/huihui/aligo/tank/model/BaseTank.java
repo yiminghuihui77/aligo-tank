@@ -5,6 +5,7 @@ import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.frame.TankFrame;
 import com.huihui.aligo.tank.observer.FireEvent;
 import com.huihui.aligo.tank.observer.FireObserver;
+import com.huihui.aligo.tank.proxy.Movable;
 import com.huihui.aligo.tank.strategy.fire.FireStrategy;
 import com.huihui.aligo.tank.utils.PropertyManager;
 import lombok.Getter;
@@ -24,7 +25,7 @@ import java.util.Random;
  **/
 @Setter
 @Getter
-public abstract class BaseTank extends BaseModel {
+public abstract class BaseTank extends BaseModel implements Movable {
 
     /**
      * 开火监听器集合
@@ -178,7 +179,8 @@ public abstract class BaseTank extends BaseModel {
     /**
      * 坦克移动
      */
-    private void move() {
+    @Override
+    public void move() {
         //停止状态，没必要判断方向且移动
         if (!moving) {
             return;
