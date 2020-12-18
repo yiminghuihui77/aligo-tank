@@ -77,7 +77,9 @@ __@CSDN__: <https://blog.csdn.net/SomeoneMH>
                          【asm】字节码操作类库中使用了Visitor模式：对类中属性、方法等元素的处理逻辑，都是在Visitor中实现的
                          该模式暂未应用到坦克大战项目         
     
-  
+    * 构建者模式(Builder): 分离复杂对象的构建和表示，即用于构建复杂对象
+    
+    
 
 
 ###3、网络编程（Netty）
