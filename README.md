@@ -59,9 +59,12 @@ __@CSDN__: <https://blog.csdn.net/SomeoneMH>
                                      代理类中的目标方法调用invocationHandler.invoke()方法
                                      其他方式生成代理类：【cglib】，基于继承关系生成代理类，首先与Java语法，final修饰的类无法生存代理类（cglib的底层也是asm）
                       
-                       【SpringAOP】
+                       【SpringAOP】 loading...
                        该模式暂未应用到坦克大战项目
                       
+    * 迭代器模式(Iterator): 迭代器核心两个接口：hasNext()、next();
+                          由于不同容器本身的数据存储结构不同，容器的遍历逻辑抽取为迭代器，让具体的迭代器提供特定容器的具体迭代方式                
+                          该模式暂未应用到坦克大战项目
                       
                       
 
