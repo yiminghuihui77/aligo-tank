@@ -1,5 +1,6 @@
 package com.huihui.aligo.tank.frame;
 
+import com.huihui.aligo.tank.memento.GameModelMemento;
 import com.huihui.aligo.tank.model.GameModel;
 import com.huihui.aligo.tank.strategy.key.KeyAdapter4PlayerA;
 import com.huihui.aligo.tank.strategy.key.KeyAdapter4PlayerB;
@@ -7,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -53,6 +56,23 @@ public class TankFrame extends Frame {
         //监听键盘事件
         addKeyListener(new KeyAdapter4PlayerA( gameModel ) );
         addKeyListener(new KeyAdapter4PlayerB( gameModel ) );
+
+        //G键保存GameModel快照；H键读档
+        addKeyListener( new KeyAdapter() {
+            @Override
+            public void keyPressed( KeyEvent e ) {
+                //获取键信息
+                int key = e.getKeyCode();
+                switch (key) {
+                    case KeyEvent.VK_G:
+                        GameModelMemento.save( gameModel );
+                        break;
+                    case KeyEvent.VK_H:
+                        gameModel = GameModelMemento.load();
+                        break;
+                }
+            }
+        } );
     }
 
 

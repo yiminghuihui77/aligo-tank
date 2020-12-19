@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ import java.util.List;
  **/
 @Setter
 @Getter
-public class GameModel {
+public class GameModel implements Serializable {
 
     /**
      * 所有的model由GameModel维护

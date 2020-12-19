@@ -1,10 +1,6 @@
 package com.huihui.aligo.tank;
 
-import com.huihui.aligo.tank.abstractFactory.SimpleGameFactory;
-import com.huihui.aligo.tank.constant.Dir;
-import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.frame.TankFrame;
-import com.huihui.aligo.tank.utils.PropertyManager;
 
 /**
  * 启动类

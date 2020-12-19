@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * 所有model的抽象基类
@@ -14,7 +15,7 @@ import java.awt.*;
  **/
 @Getter
 @Setter
-public abstract class BaseModel {
+public abstract class BaseModel implements Serializable {
     protected int x;
     protected int y;
 
