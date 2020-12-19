@@ -90,7 +90,13 @@ __@CSDN__: <https://blog.csdn.net/SomeoneMH>
     * 命令模式(Command): 用于封装命令，如 do & undo
                        该模式暂未应用到坦克大战项目
 
-
+    * 原型模式(Prototype): 也称为克隆模式
+                          jdk自带原型模式（底层c++实现）：Object.clone()，1、需要实现Cloneable接口，2、重写clone()方法  
+                          注意[浅克隆]：针对基础数据类型和String、[深克隆]:针对除String之外的引用类型
+                          new String("abc")新建一个字符串时，新的堆内存中，还是指向常量池中的abc字符串
+                          该模式暂未应用到坦克大战项目
+     
+    * 快照模式(Memento): 记录对象的某个瞬间，记录快照时，[序列化]对象，回退到指定快照时，[反序列化]对象
 
 ###3、网络编程（Netty）
 BIO、NIO、AIO  
