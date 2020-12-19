@@ -77,13 +77,23 @@ __@CSDN__: <https://blog.csdn.net/SomeoneMH>
                          【asm】字节码操作类库中使用了Visitor模式：对类中属性、方法等元素的处理逻辑，都是在Visitor中实现的
                          该模式暂未应用到坦克大战项目         
     
-    * 构建者模式(Builder): 分离复杂对象的构建和表示，即用于构建复杂对象
-    
-    
+    * 构建者模式(Builder): 分离复杂对象的构建和表示，即用于构建复杂对象+流式API
+                         该模式暂未应用到坦克大战项目  
+                         
+    * 适配器模式(Adapter/Wrapper): InputStreamReader、OutputStreamWriter都是适配器模式的经典实现         
+                                 一般用于新老接口的兼容             
+                                 该模式暂未应用到坦克大战项目
+                                 
+    * 桥梁模式(Bridge): 将抽象的部分与实现的部分分离，使它们都能独立的变化
+                       该模式暂未应用到坦克大战项目
+
+    * 命令模式(Command): 用于封装命令，如 do & undo
+                       该模式暂未应用到坦克大战项目
+
 
 
 ###3、网络编程（Netty）
-
+BIO、NIO、AIO  
 
 
 
