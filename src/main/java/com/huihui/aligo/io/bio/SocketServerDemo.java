@@ -1,4 +1,4 @@
-package com.huihui.aligo.io;
+package com.huihui.aligo.io.bio;
 
 
 import java.io.IOException;
