@@ -15,7 +15,7 @@ import java.awt.*;
 
 /**
  * 封装一个netty的客户端
- * 与NettyServerDemo服务端交互
+ * 与NettyServer服务端交互
  * @author minghui.y
  * @create 2020-12-21 11:35 上午
  **/
@@ -54,7 +54,10 @@ public class NettyClient {
                        protected void initChannel( SocketChannel ch ) throws Exception {
                            //添加处理器，ChannelPipeline可以理解为channel的责任链条
                            ChannelPipeline channelPipeline = ch.pipeline();
-                           channelPipeline.addLast( new ChatClientInboundHandler() );
+                           //先添加编码器，在添加处理器
+                           //所有的数据输出都会经过走编码器！
+                           channelPipeline.addLast( new TankMessageEncoder() )
+                                   .addLast( new ChatClientInboundHandler() );
                        }
                    } )
                    .connect("localhost", 8890)
@@ -96,8 +99,9 @@ public class NettyClient {
         public void channelActive( ChannelHandlerContext ctx ) throws Exception {
             //ChannelHandlerContext可以理解为channel的上下文
             //通道可用，向服务端写入hello
-            ByteBuf byteBuf = Unpooled.copiedBuffer("hello".getBytes());
-            ctx.writeAndFlush( byteBuf );
+//            ByteBuf byteBuf = Unpooled.copiedBuffer("hello".getBytes());
+//            ctx.writeAndFlush( byteBuf );
+            ctx.writeAndFlush( new TankMessage( 300, 100 ) );
         }
 
         @Override
