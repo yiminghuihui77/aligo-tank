@@ -43,7 +43,6 @@ public class TankFrame extends Frame {
         this.setResizable( false );
         this.setTitle( "Tank @yiminghuihui77" );
         this.setSize( GAME_WIDTH, GAME_HEIGHT );
-        this.setVisible( true );
         this.setLocation( LOCATION_X, LOCATION_Y );
 
         //监听窗口事件
@@ -73,6 +72,9 @@ public class TankFrame extends Frame {
                 }
             }
         } );
+
+        //初始化完成后，界面可视
+        this.setVisible( true );
     }
 
 
