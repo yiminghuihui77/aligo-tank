@@ -79,11 +79,19 @@ public class NettyServerDemo {
                 byteBuf = (ByteBuf) msg;
                 byte[] buffer = new byte[byteBuf.readableBytes()];
                 byteBuf.getBytes( byteBuf.readerIndex(), buffer );
-                System.out.println(Thread.currentThread().getName() + "服务端读取数据：" + new String(buffer));
+                String bufferStr = new String(buffer);
 
-//                ctx.writeAndFlush( Unpooled.copiedBuffer( "server copy!".getBytes() ) );
-                //向所有通道写入数据？
-                NettyServerDemo.clients.writeAndFlush( msg );
+                System.out.println(Thread.currentThread().getName() + "服务端读取数据：" + bufferStr);
+
+                if ("EXIT".equals( bufferStr )) {
+                    //客户端请求关闭
+                    NettyServerDemo.clients.remove( ctx.channel() );
+                    ctx.close();
+                } else {
+                    //                ctx.writeAndFlush( Unpooled.copiedBuffer( "server copy!".getBytes() ) );
+                    //向所有通道写入数据？
+                    NettyServerDemo.clients.writeAndFlush( msg );
+                }
 
             } finally {
 //                if (byteBuf != null) {
@@ -97,6 +105,8 @@ public class NettyServerDemo {
         public void exceptionCaught( ChannelHandlerContext ctx, Throwable cause ) throws Exception {
             //通道产生异常，捕获异常后，关闭
             cause.printStackTrace();
+            //移出异常的channel
+            NettyServerDemo.clients.remove( ctx.channel() );
             ctx.close();
         }
     }
