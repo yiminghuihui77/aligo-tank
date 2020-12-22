@@ -1,7 +1,5 @@
 package com.huihui.aligo.io.tank.ui;
 
-import com.huihui.aligo.io.tank.message.TankStopMessage;
-import com.huihui.aligo.io.tank.netty.NettyClient;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import lombok.Getter;
@@ -138,21 +136,20 @@ public class NettyTankFrame extends Frame {
             int key = e.getKeyCode();
             switch (key) {
                 case KeyEvent.VK_UP:
-                    mainTank.setDir( Dir.UP );
-                    mainTank.move();
+                    mainTank.changeDir( Dir.UP );
                     break;
                 case KeyEvent.VK_DOWN:
-                    mainTank.setDir( Dir.DOWN );
-                    mainTank.move();
+                    mainTank.changeDir( Dir.DOWN );
                     break;
                 case KeyEvent.VK_LEFT:
-                    mainTank.setDir( Dir.LEFT );
-                    mainTank.move();
+                    mainTank.changeDir( Dir.LEFT );
                     break;
                 case KeyEvent.VK_RIGHT:
-                    mainTank.setDir( Dir.RIGHT );
-                    mainTank.move();
+                    mainTank.changeDir( Dir.RIGHT );
                     break;
+                case KeyEvent.VK_ENTER:
+                    //回车键，改变移动状态
+                    mainTank.changeMoving();
                 case KeyEvent.VK_SPACE:
                     //按下空格键，坦克发射子弹
 //                    mainTank.fire();
@@ -162,36 +159,8 @@ public class NettyTankFrame extends Frame {
             }
         }
 
-        /**
-         * 按键释放
-         * @param e
-         */
-        @Override
-        public void keyReleased( KeyEvent e ) {
-            //获取键信息
-            int key = e.getKeyCode();
-            switch (key) {
-                case KeyEvent.VK_UP:
-                    mainTank.setDir( Dir.UP );
-                    mainTank.stop();
-                    break;
-                case KeyEvent.VK_DOWN:
-                    mainTank.setDir( Dir.DOWN );
-                    mainTank.stop();
-                    break;
-                case KeyEvent.VK_LEFT:
-                    mainTank.setDir( Dir.LEFT );
-                    mainTank.stop();
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    mainTank.setDir( Dir.RIGHT );
-                    mainTank.stop();
-                    break;
-                default:
-                    break;
-            }
 
-        }
+
     }
 
 

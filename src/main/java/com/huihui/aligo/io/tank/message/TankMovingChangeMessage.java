@@ -3,7 +3,6 @@ package com.huihui.aligo.io.tank.message;
 import com.huihui.aligo.io.tank.constant.MessageType;
 import com.huihui.aligo.io.tank.ui.NettyTank;
 import com.huihui.aligo.io.tank.ui.NettyTankFrame;
-import com.huihui.aligo.tank.constant.Dir;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.io.ByteArrayInputStream;
@@ -13,40 +12,44 @@ import java.io.DataOutputStream;
 import java.util.UUID;
 
 /**
- * 坦克停止message
+ * 坦克改变运动状态message
  *
  * @author minghui.y
- * @create 2020-12-22 12:47 下午
+ * @create 2020-12-22 3:55 下午
  **/
-public class TankStopMessage extends BaseStateMessage {
+public class TankMovingChangeMessage extends BaseStateMessage {
 
     private UUID uuid;
+    private boolean moving;
     private int x;
     private int y;
-    private Dir dir;
 
-    public TankStopMessage() {}
+    public TankMovingChangeMessage(){}
 
-    public TankStopMessage( NettyTank tank ) {
+    public TankMovingChangeMessage( UUID uuid, boolean moving, int x, int y ) {
+        this.uuid = uuid;
+        this.moving = moving;
+        this.x = x;
+        this.y = y;
+    }
+
+    public TankMovingChangeMessage( NettyTank tank ) {
         this.x = tank.getX();
         this.y = tank.getY();
-        this.dir = tank.getDir();
         this.uuid = tank.getUuid();
+        this.moving = tank.isMoving();
     }
 
     @Override
     public void handle( ChannelHandlerContext ctx ) {
-        //如果是当前客户端的主战坦克，则忽略
         if (this.uuid.equals( NettyTankFrame.getInstance().getMainTank().getUuid() )) {
             return;
         }
-        //移动敌方坦克
-        NettyTank tank = NettyTankFrame.getInstance().getBadTank( this.uuid.toString() );
+        NettyTank tank = NettyTankFrame.getInstance().getBadTank(this.uuid.toString());
         if (tank != null) {
-            tank.setMoving( false );
-            tank.setX( this.x );
-            tank.setY( this.y );
-            tank.setDir( this.dir );
+            tank.setX( x );
+            tank.setY( y );
+            tank.setMoving( moving );
         }
     }
 
@@ -61,7 +64,7 @@ public class TankStopMessage extends BaseStateMessage {
 
             oos.writeInt( x );
             oos.writeInt( y );
-            oos.writeInt( dir.ordinal() );
+            oos.writeBoolean( moving );
             oos.writeLong( uuid.getMostSignificantBits() );
             oos.writeLong( uuid.getLeastSignificantBits() );
             return bos.toByteArray();
@@ -93,7 +96,7 @@ public class TankStopMessage extends BaseStateMessage {
             //读取数据
             this.x = dis.readInt();
             this.y = dis.readInt();
-            this.dir = Dir.values()[dis.readInt()];
+            this.moving = dis.readBoolean();
             this.uuid = new UUID( dis.readLong(), dis.readLong() );
 
         } catch (Exception e) {
@@ -114,6 +117,6 @@ public class TankStopMessage extends BaseStateMessage {
 
     @Override
     public MessageType getType() {
-        return MessageType.TANK_STOP;
+        return MessageType.TANK_MOVING_CHANGE;
     }
 }

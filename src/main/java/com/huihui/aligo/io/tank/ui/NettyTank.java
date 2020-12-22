@@ -1,8 +1,8 @@
 package com.huihui.aligo.io.tank.ui;
 
+import com.huihui.aligo.io.tank.message.TankDirChangeMessage;
 import com.huihui.aligo.io.tank.message.TankJoinMessage;
-import com.huihui.aligo.io.tank.message.TankMovingMessage;
-import com.huihui.aligo.io.tank.message.TankStopMessage;
+import com.huihui.aligo.io.tank.message.TankMovingChangeMessage;
 import com.huihui.aligo.io.tank.netty.NettyClient;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
@@ -89,8 +89,8 @@ public class NettyTank {
         //画出坦克
         paintTank( graphics );
 
-        //移动坦克 (改为在按下按键的时候才移动，而不是每次paint)
-//        move();
+        //移动坦克
+        move();
 
     }
 
@@ -127,8 +127,9 @@ public class NettyTank {
     }
 
     public void move() {
-        boolean oldMoving = moving;
-        moving = true;
+       if (!moving) {
+           return;
+       }
         //记录坦克移动之前的位置，用于坦克间碰撞的冲突检测
         oldX = x;
         oldY = y;
@@ -150,18 +151,30 @@ public class NettyTank {
         }
         //限制坦克的坐标，必须在界面范围内
         checkBound();
-        //坦克从停止开始移动后，向服务器发送moving消息
-        if (!oldMoving) {
-            NettyClient.getInstance().send( new TankMovingMessage(this) );
+    }
+
+    /**
+     * 改变方向
+     * @param targetDir
+     */
+    public void changeDir(Dir targetDir) {
+        Dir oldDir = dir;
+
+        if (!oldDir.equals( targetDir )) {
+            //方向发生改变
+            dir = targetDir;
+            //发送方向改变message
+            NettyClient.getInstance().send( new TankDirChangeMessage(this) );
         }
     }
 
-
-    public void stop() {
-        moving = false;
-
-        //发送坦克stop消息
-         NettyClient.getInstance().send( new TankStopMessage(this) );
+    /**
+     * 改变运动状态
+     */
+    public void changeMoving() {
+        moving = !moving;
+        //发送运动状态
+        NettyClient.getInstance().send( new TankMovingChangeMessage(this) );
     }
 
     /**

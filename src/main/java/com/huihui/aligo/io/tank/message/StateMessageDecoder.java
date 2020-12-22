@@ -47,13 +47,16 @@ public class StateMessageDecoder extends ByteToMessageDecoder {
          */
         switch (messageType) {
             case TANK_JOIN:
+                //坦克加入
                 message = new TankJoinMessage();
                 break;
-            case TANK_MOVING:
-                message = new TankMovingMessage();
+            case TANK_MOVING_CHANGE:
+                //改变运动状态
+                message = new TankMovingChangeMessage();
                 break;
-            case TANK_STOP:
-                message = new TankStopMessage();
+            case TANK_DIR_CHANGE:
+                //改变方向
+                message = new TankDirChangeMessage();
                 break;
             default:
                 break;

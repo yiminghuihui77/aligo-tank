@@ -9,8 +9,7 @@ package com.huihui.aligo.io.tank.constant;
 public enum MessageType {
     TANK_JOIN("坦克加入"),
     TANK_DIR_CHANGE("坦克方向改变"),
-    TANK_MOVING("坦克移动"),
-    TANK_STOP("坦克停止"),
+    TANK_MOVING_CHANGE("坦克移动"),
     TANK_DIE("坦克销毁"),
     BULLET_JOIN("子弹加入"),
     BULLET_DIE("子弹销毁"),

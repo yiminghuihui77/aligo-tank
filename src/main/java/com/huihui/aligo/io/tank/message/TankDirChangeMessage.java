@@ -13,47 +13,43 @@ import java.io.DataOutputStream;
 import java.util.UUID;
 
 /**
- * 坦克移动message
+ * 坦克改变方向message
  *
  * @author minghui.y
- * @create 2020-12-22 11:56 上午
+ * @create 2020-12-22 3:58 下午
  **/
-public class TankMovingMessage extends BaseStateMessage {
+public class TankDirChangeMessage extends BaseStateMessage {
 
     private UUID uuid;
+    private Dir dir;
     private int x;
     private int y;
-    private Dir dir;
 
-    public TankMovingMessage(){}
-
-    public TankMovingMessage( UUID uuid, int x, int y, Dir dir ) {
-        this.uuid = uuid;
-        this.x = x;
-        this.y = y;
-        this.dir = dir;
-    }
-
-    public TankMovingMessage(NettyTank tank) {
+    public TankDirChangeMessage(){}
+    public TankDirChangeMessage( NettyTank tank ) {
         this.x = tank.getX();
         this.y = tank.getY();
         this.dir = tank.getDir();
         this.uuid = tank.getUuid();
     }
 
+    public TankDirChangeMessage( UUID uuid, Dir dir, int x, int y ) {
+        this.uuid = uuid;
+        this.dir = dir;
+        this.x = x;
+        this.y = y;
+    }
+
     @Override
     public void handle( ChannelHandlerContext ctx ) {
-        //如果是当前客户端的主战坦克，则忽略
         if (this.uuid.equals( NettyTankFrame.getInstance().getMainTank().getUuid() )) {
             return;
         }
-        //移动敌方坦克
-        NettyTank tank = NettyTankFrame.getInstance().getBadTank( this.uuid.toString() );
+        NettyTank tank = NettyTankFrame.getInstance().getBadTank(this.uuid.toString());
         if (tank != null) {
-            tank.setMoving( true );
-            tank.setX( this.x );
-            tank.setY( this.y );
-            tank.setDir( this.dir );
+            tank.setX( x );
+            tank.setY( y );
+            tank.setDir( dir );
         }
     }
 
@@ -119,18 +115,9 @@ public class TankMovingMessage extends BaseStateMessage {
         }
     }
 
-    @Override
-    public MessageType getType() {
-        return MessageType.TANK_MOVING;
-    }
 
     @Override
-    public String toString() {
-        return "TankMovingMessage{" +
-                "uuid=" + uuid +
-                ", x=" + x +
-                ", y=" + y +
-                ", dir=" + dir +
-                '}';
+    public MessageType getType() {
+        return MessageType.TANK_DIR_CHANGE;
     }
 }
