@@ -58,6 +58,8 @@ public class StateMessageDecoder extends ByteToMessageDecoder {
                 //改变方向
                 message = new TankDirChangeMessage();
                 break;
+            case BULLET_JOIN:
+                message = new BulletJoinMessage();
             default:
                 break;
         }

@@ -1,5 +1,6 @@
 package com.huihui.aligo.io.tank.ui;
 
+import com.huihui.aligo.io.tank.message.BulletJoinMessage;
 import com.huihui.aligo.io.tank.message.TankDirChangeMessage;
 import com.huihui.aligo.io.tank.message.TankJoinMessage;
 import com.huihui.aligo.io.tank.message.TankMovingChangeMessage;
@@ -42,6 +43,10 @@ public class NettyTank {
      */
     public static int WIDTH;
     public static int HEIGHT;
+    static {
+        WIDTH = ResourceManager.goodTankU.getWidth();
+        HEIGHT = ResourceManager.goodTankL.getHeight();
+    }
     /**
      * 方向
      */
@@ -126,6 +131,9 @@ public class NettyTank {
         graphics.setColor( color );
     }
 
+    /**
+     * 移动坦克
+     */
     public void move() {
        if (!moving) {
            return;
@@ -200,6 +208,22 @@ public class NettyTank {
      */
     public void die() {
         this.living = false;
+    }
+
+
+    /**
+     * 坦克开火
+     */
+    public void fire() {
+        //每次发射，创建一个子弹
+        //计算子弹发射的坐标点
+        int bx = x + (NettyTank.WIDTH / 2) - (NettyBullet.WIDTH / 2);
+        int by = y + (NettyTank.HEIGHT / 2) - (NettyBullet.HEIGHT / 2);
+        //子弹方向与坦克的方向保持一致；坦克打出的子弹不会误伤自己和友军
+        NettyBullet bullet = new NettyBullet( bx, by, dir, group, UUID.randomUUID() );
+                NettyTankFrame.getInstance().addBullet( bullet );
+        //送子弹join的消息
+        NettyClient.getInstance().send( new BulletJoinMessage(bullet) );
     }
 
 

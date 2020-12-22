@@ -10,10 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * netty版TankFrame
@@ -46,6 +43,7 @@ public class NettyTankFrame extends Frame {
 
     private Map<String, NettyTank> tankMap = new HashMap<>();
 
+    private Map<String, NettyBullet> bulletMap = new HashMap<>();
 
 
     /**
@@ -84,11 +82,26 @@ public class NettyTankFrame extends Frame {
 
     @Override
     public void paint( Graphics g ) {
+
+        Color color = g.getColor();
+        g.setColor( Color.ORANGE );
+        g.drawString( "敌方坦克数量：" + tankMap.values().size(), 10, 60 );
+        g.drawString( "子弹数量：" + bulletMap.size(), 10, 80 );
+        g.setColor( color );
+
         //渲染自己的坦克
         mainTank.paint( g );
 
         //渲染其他坦克
         tankMap.values().stream().forEach( o -> o.paint( g ) );
+
+        //渲染子弹
+        //TODO CurrentModificationException异常待解决
+        Iterator<NettyBullet> iterator = bulletMap.values().iterator();
+        while (iterator.hasNext()) {
+            iterator.next().paint( g );
+        }
+
     }
 
     /**
@@ -125,7 +138,6 @@ public class NettyTankFrame extends Frame {
      * 主战坦克按键监听
      */
     public  class MainTankKeyAdapter extends KeyAdapter {
-
         /**
          * 按键按下
          * @param e
@@ -150,9 +162,10 @@ public class NettyTankFrame extends Frame {
                 case KeyEvent.VK_ENTER:
                     //回车键，改变移动状态
                     mainTank.changeMoving();
+                    break;
                 case KeyEvent.VK_SPACE:
                     //按下空格键，坦克发射子弹
-//                    mainTank.fire();
+                    mainTank.fire();
                     break;
                 default:
                     break;
@@ -163,5 +176,12 @@ public class NettyTankFrame extends Frame {
 
     }
 
+    public void removeBullet(NettyBullet bullet) {
+        bulletMap.remove( bullet.getUuid().toString() );
+    }
+
+    public void addBullet(NettyBullet bullet) {
+        bulletMap.put( bullet.getUuid().toString(), bullet );
+    }
 
 }

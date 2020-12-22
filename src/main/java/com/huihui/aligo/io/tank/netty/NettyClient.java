@@ -110,6 +110,8 @@ public class NettyClient {
 
         @Override
         protected void channelRead0( ChannelHandlerContext ctx, BaseStateMessage msg ) throws Exception {
+            //读取服务端的数据
+            System.out.println("客户端接收：" + msg);
             //由消息自己处理
            msg.handle( ctx );
         }
