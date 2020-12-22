@@ -6,8 +6,8 @@ __@CSDN__: <https://blog.csdn.net/SomeoneMH>
 
 ![效果图](src/main/resources/images/效果图2.png)
 
-单机版（设计模式版）的程序入口：com.huihui.aligo.tank.HelloTank
-联机版（Netty版）的程序入口：com.huihui.aligo.io.tank.HelloNettyTank
+单机版（设计模式版）的程序入口：com.huihui.aligo.tank.HelloTank  
+联机版（Netty版）的程序入口：com.huihui.aligo.io.tank.HelloNettyTank  
 
 ##技术栈:
 
