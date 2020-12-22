@@ -25,6 +25,7 @@ public class HelloNettyTank {
         }).start();
 
         NettyClient client = NettyClient.getInstance();
-        client.connect("localhost");
+        //传入server服务器启动的主机IP地址
+        client.connect("192.168.31.90");
     }
 }
