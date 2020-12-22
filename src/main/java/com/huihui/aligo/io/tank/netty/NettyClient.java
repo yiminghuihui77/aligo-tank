@@ -3,7 +3,7 @@ package com.huihui.aligo.io.tank.netty;
 import com.huihui.aligo.io.tank.message.BaseStateMessage;
 import com.huihui.aligo.io.tank.message.StateMessageDecoder;
 import com.huihui.aligo.io.tank.message.StateMessageEncoder;
-import com.huihui.aligo.io.tank.message.TankStateMessage;
+import com.huihui.aligo.io.tank.message.TankJoinMessage;
 import com.huihui.aligo.io.tank.ui.NettyTankFrame;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -104,7 +104,8 @@ public class NettyClient {
         @Override
         public void channelActive( ChannelHandlerContext ctx ) throws Exception {
             //通道可用时，向服务器写入自己坦克的信息
-            ctx.writeAndFlush( new TankStateMessage( NettyTankFrame.getInstance().getMainTank() ) );
+            //写入坦克join消息
+            ctx.writeAndFlush( new TankJoinMessage( NettyTankFrame.getInstance().getMainTank() ) );
         }
 
         @Override

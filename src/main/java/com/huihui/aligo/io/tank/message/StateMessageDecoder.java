@@ -38,18 +38,29 @@ public class StateMessageDecoder extends ByteToMessageDecoder {
         byte[] buffer = new byte[length];
         in.readBytes( buffer );
 
+        BaseStateMessage message = null;
+
+        /**
+         * 每新增一种消息，羡慕代码就增加一种判断
+         * 可以通过反射是实例化：
+         * Class.forName(报名 + messageType).newInstance();
+         */
         switch (messageType) {
             case TANK_JOIN:
-                TankStateMessage tankStateMessage = new TankStateMessage();
-                //将字节数组的数据转为message中的属性
-                tankStateMessage.parse( buffer );
-                out.add( tankStateMessage );
+                message = new TankJoinMessage();
+                break;
+            case TANK_MOVING:
+                message = new TankMovingMessage();
+                break;
+            case TANK_STOP:
+                message = new TankStopMessage();
                 break;
             default:
                 break;
         }
 
-
-
+        //将字节数组的数据转为message中的属性
+        message.parse( buffer );
+        out.add( message );
     }
 }

@@ -11,11 +11,11 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * @create 2020-12-21 3:45 下午
  **/
 @Deprecated
-public class TankStateEncoder extends MessageToByteEncoder<TankStateMessage> {
+public class TankStateEncoder extends MessageToByteEncoder<TankJoinMessage> {
 
 
     @Override
-    protected void encode( ChannelHandlerContext ctx, TankStateMessage msg, ByteBuf out ) throws Exception {
+    protected void encode( ChannelHandlerContext ctx, TankJoinMessage msg, ByteBuf out ) throws Exception {
         //将TankStateMessage写入ByteBuf
         out.writeInt( msg.getX() );
         out.writeInt( msg.getY() );

@@ -22,7 +22,7 @@ import java.util.UUID;
  **/
 @Getter
 @Setter
-public class TankStateMessage extends BaseStateMessage {
+public class TankJoinMessage extends BaseStateMessage {
 
     private int x;
     private int y;
@@ -32,7 +32,7 @@ public class TankStateMessage extends BaseStateMessage {
     private UUID uuid;
 
 
-    public TankStateMessage( int x, int y, Dir dir, Group group, boolean moving, UUID uuid ) {
+    public TankJoinMessage( int x, int y, Dir dir, Group group, boolean moving, UUID uuid ) {
         this.x = x;
         this.y = y;
         this.dir = dir;
@@ -40,9 +40,9 @@ public class TankStateMessage extends BaseStateMessage {
         this.moving = moving;
         this.uuid = uuid;
     }
-    public TankStateMessage(){}
+    public TankJoinMessage(){}
 
-    public TankStateMessage( NettyTank tank) {
+    public TankJoinMessage( NettyTank tank) {
         this.x = tank.getX();
         this.y = tank.getY();
         this.dir = tank.getDir();
@@ -67,7 +67,7 @@ public class TankStateMessage extends BaseStateMessage {
         NettyTankFrame.getInstance().addBadTank( newTank );
 
         //再次将自己的坦克传到服务端，让新的坦克知道自己
-        ctx.writeAndFlush( new TankStateMessage( NettyTankFrame.getInstance().getMainTank() ) );
+        ctx.writeAndFlush( new TankJoinMessage( NettyTankFrame.getInstance().getMainTank() ) );
     }
 
     /**

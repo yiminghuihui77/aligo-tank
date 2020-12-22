@@ -116,6 +116,10 @@ BIO: Blocking IO
 NIO: Non-Blocking IO
 AIO: Asynchronous IO
 
+TCP: nagle算法
+     发送数据包时，若数据包过小，服务器会积攒数据包直到达到阈值后一次性发送，以便减少网络中的小包，提高发送效率
+     但这种算法不适合网络游戏，网络游戏对数据的实时性要求较高
+
 ####netty版坦克
 >>思路  
 1、每次建立新的客户端连接时，客户端在channelActive时，将自己的主战坦克发送到服务器  
@@ -132,6 +136,27 @@ AIO: Asynchronous IO
    * 子弹与地方坦克碰撞后，爆炸的每次刷新
 6、数据传输协议：
    消息类型 + 数据长度 + 字节数组
+   
+![数据传输](src/main/resources/images/tips/数据传输.png)   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

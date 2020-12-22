@@ -2,7 +2,7 @@ package com.huihui.aligo.tank;
 
 import com.huihui.aligo.io.tank.message.TankStateDecoder;
 import com.huihui.aligo.io.tank.message.TankStateEncoder;
-import com.huihui.aligo.io.tank.message.TankStateMessage;
+import com.huihui.aligo.io.tank.message.TankJoinMessage;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import io.netty.buffer.ByteBuf;
@@ -27,7 +27,7 @@ public class TankStateTest {
     @Test
     public void testEncode() {
 
-        TankStateMessage message = new TankStateMessage(10, 20 , Dir.UP, Group.BAD, true, UUID.randomUUID() );
+        TankJoinMessage message = new TankJoinMessage(10, 20 , Dir.UP, Group.BAD, true, UUID.randomUUID() );
 
         EmbeddedChannel channel = new EmbeddedChannel(new TankStateEncoder() );
         channel.writeOutbound( message );
@@ -55,7 +55,7 @@ public class TankStateTest {
     @Test
     public void testDecode() {
 
-        TankStateMessage message = new TankStateMessage(10, 20 , Dir.UP, Group.BAD, true, UUID.randomUUID() );
+        TankJoinMessage message = new TankJoinMessage(10, 20 , Dir.UP, Group.BAD, true, UUID.randomUUID() );
         EmbeddedChannel channel = new EmbeddedChannel();
         channel.pipeline().addLast( new TankStateDecoder() );
 
@@ -64,7 +64,7 @@ public class TankStateTest {
 
         channel.writeInbound( byteBuf.duplicate() );
         //读取解码后的结果
-        TankStateMessage message2 = channel.readInbound();
+        TankJoinMessage message2 = channel.readInbound();
 
         //验证
         Assert.assertEquals( message.getX(), message2.getX() );

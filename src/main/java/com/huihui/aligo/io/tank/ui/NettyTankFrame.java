@@ -1,5 +1,7 @@
 package com.huihui.aligo.io.tank.ui;
 
+import com.huihui.aligo.io.tank.message.TankStopMessage;
+import com.huihui.aligo.io.tank.netty.NettyClient;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import lombok.Getter;
@@ -125,6 +127,11 @@ public class NettyTankFrame extends Frame {
      * 主战坦克按键监听
      */
     public  class MainTankKeyAdapter extends KeyAdapter {
+
+        /**
+         * 按键按下
+         * @param e
+         */
         @Override
         public void keyPressed( KeyEvent e ) {
             //获取键信息
@@ -132,19 +139,19 @@ public class NettyTankFrame extends Frame {
             switch (key) {
                 case KeyEvent.VK_UP:
                     mainTank.setDir( Dir.UP );
+                    mainTank.move();
                     break;
                 case KeyEvent.VK_DOWN:
                     mainTank.setDir( Dir.DOWN );
+                    mainTank.move();
                     break;
                 case KeyEvent.VK_LEFT:
                     mainTank.setDir( Dir.LEFT );
+                    mainTank.move();
                     break;
                 case KeyEvent.VK_RIGHT:
                     mainTank.setDir( Dir.RIGHT );
-                    break;
-                case KeyEvent.VK_ENTER:
-                    //按下回车，移动状态取反
-                    mainTank.setMoving( !mainTank.isMoving() );
+                    mainTank.move();
                     break;
                 case KeyEvent.VK_SPACE:
                     //按下空格键，坦克发射子弹
@@ -153,6 +160,37 @@ public class NettyTankFrame extends Frame {
                 default:
                     break;
             }
+        }
+
+        /**
+         * 按键释放
+         * @param e
+         */
+        @Override
+        public void keyReleased( KeyEvent e ) {
+            //获取键信息
+            int key = e.getKeyCode();
+            switch (key) {
+                case KeyEvent.VK_UP:
+                    mainTank.setDir( Dir.UP );
+                    mainTank.stop();
+                    break;
+                case KeyEvent.VK_DOWN:
+                    mainTank.setDir( Dir.DOWN );
+                    mainTank.stop();
+                    break;
+                case KeyEvent.VK_LEFT:
+                    mainTank.setDir( Dir.LEFT );
+                    mainTank.stop();
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    mainTank.setDir( Dir.RIGHT );
+                    mainTank.stop();
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 

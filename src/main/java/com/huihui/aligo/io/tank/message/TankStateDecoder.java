@@ -29,7 +29,7 @@ public class TankStateDecoder extends ByteToMessageDecoder {
             //ByteBuf中的数据不足，可能是拆包所致，需要等到数据到齐才处理
             return;
         }
-        TankStateMessage message = new TankStateMessage();
+        TankJoinMessage message = new TankJoinMessage();
         int x = in.readInt();
         int y = in.readInt();
         int dirOrigin = in.readInt();

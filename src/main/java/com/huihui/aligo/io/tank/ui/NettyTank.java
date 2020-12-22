@@ -1,6 +1,9 @@
 package com.huihui.aligo.io.tank.ui;
 
-import com.huihui.aligo.io.tank.message.TankStateMessage;
+import com.huihui.aligo.io.tank.message.TankJoinMessage;
+import com.huihui.aligo.io.tank.message.TankMovingMessage;
+import com.huihui.aligo.io.tank.message.TankStopMessage;
+import com.huihui.aligo.io.tank.netty.NettyClient;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.utils.PropertyManager;
@@ -74,7 +77,7 @@ public class NettyTank {
         this.uuid = uuid;
     }
 
-    public NettyTank( TankStateMessage message ) {
+    public NettyTank( TankJoinMessage message ) {
         this.dir = message.getDir();
         this.group = message.getGroup();
         this.x = message.getX();
@@ -86,8 +89,8 @@ public class NettyTank {
         //画出坦克
         paintTank( graphics );
 
-        //移动坦克
-        move();
+        //移动坦克 (改为在按下按键的时候才移动，而不是每次paint)
+//        move();
 
     }
 
@@ -124,11 +127,8 @@ public class NettyTank {
     }
 
     public void move() {
-        //停止状态，没必要判断方向且移动
-        if (!moving) {
-            return;
-        }
-
+        boolean oldMoving = moving;
+        moving = true;
         //记录坦克移动之前的位置，用于坦克间碰撞的冲突检测
         oldX = x;
         oldY = y;
@@ -150,6 +150,18 @@ public class NettyTank {
         }
         //限制坦克的坐标，必须在界面范围内
         checkBound();
+        //坦克从停止开始移动后，向服务器发送moving消息
+        if (!oldMoving) {
+            NettyClient.getInstance().send( new TankMovingMessage(this) );
+        }
+    }
+
+
+    public void stop() {
+        moving = false;
+
+        //发送坦克stop消息
+         NettyClient.getInstance().send( new TankStopMessage(this) );
     }
 
     /**
