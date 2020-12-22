@@ -62,7 +62,7 @@ public class TankJoinMessage extends BaseStateMessage {
 
         //新的玩家（坦克）加入，在自己的list中添加
         NettyTank newTank = new NettyTank( this );
-        NettyTankFrame.getInstance().addBadTank( newTank );
+        NettyTankFrame.getInstance().addTank( newTank );
 
         //再次将自己的坦克传到服务端，让新的坦克知道自己
         ctx.writeAndFlush( new TankJoinMessage( NettyTankFrame.getInstance().getMainTank() ) );

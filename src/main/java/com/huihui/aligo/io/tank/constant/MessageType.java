@@ -12,6 +12,7 @@ public enum MessageType {
     TANK_MOVING_CHANGE("坦克移动"),
     TANK_DIE("坦克销毁"),
     BULLET_JOIN("子弹加入"),
+    //以下不用，因为子弹会在各个客户端进行碰撞检测，生成爆炸和销毁
     BULLET_DIE("子弹销毁"),
     EXPLODE_JOIN("爆炸加入"),
     EXPLODE_DIE("爆炸销毁");

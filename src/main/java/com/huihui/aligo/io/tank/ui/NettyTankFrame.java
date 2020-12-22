@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
+import java.util.List;
 
 /**
  * netty版TankFrame
@@ -41,9 +42,14 @@ public class NettyTankFrame extends Frame {
      */
     private NettyTank mainTank = new NettyTank( random.nextInt(800), random.nextInt(600), Dir.DOWN, Group.GOOD, UUID.randomUUID() );
 
-    private Map<String, NettyTank> tankMap = new HashMap<>();
+//    private Map<String, NettyTank> tankMap = new HashMap<>();
+    private List<NettyTank> tanks = new ArrayList<>();
 
-    private Map<String, NettyBullet> bulletMap = new HashMap<>();
+//    private Map<String, NettyBullet> bulletMap = new HashMap<>();
+    private List<NettyBullet> bullets = new ArrayList<>();
+
+//    private Map<String, NettyExplode> explodeMap = new HashMap<>();
+    private List<NettyExplode> explodes = new ArrayList<>();
 
 
     /**
@@ -83,23 +89,35 @@ public class NettyTankFrame extends Frame {
     @Override
     public void paint( Graphics g ) {
 
-        Color color = g.getColor();
-        g.setColor( Color.ORANGE );
-        g.drawString( "敌方坦克数量：" + tankMap.values().size(), 10, 60 );
-        g.drawString( "子弹数量：" + bulletMap.size(), 10, 80 );
-        g.setColor( color );
-
         //渲染自己的坦克
         mainTank.paint( g );
 
         //渲染其他坦克
-        tankMap.values().stream().forEach( o -> o.paint( g ) );
+        for (int i = 0;i < tanks.size();i++) {
+            tanks.get( i ).paint( g );
+        }
 
         //渲染子弹
-        //TODO CurrentModificationException异常待解决
-        Iterator<NettyBullet> iterator = bulletMap.values().iterator();
-        while (iterator.hasNext()) {
-            iterator.next().paint( g );
+        for (int i = 0;i < bullets.size();i++) {
+            bullets.get( i ).paint( g );
+        }
+
+        //渲染炸弹
+        for (int i = 0;i < explodes.size();i ++) {
+            explodes.get( i ).paint( g );
+        }
+
+        Color color = g.getColor();
+        g.setColor( Color.ORANGE );
+        g.drawString( "敌方坦克数量：" + tanks.size(), 10, 60 );
+        g.drawString( "子弹数量：" + bullets.size(), 10, 80 );
+        //标识主战坦克
+        g.drawString( "主战坦克", mainTank.getX(), mainTank.getY() - 20 );
+        g.setColor( color );
+
+        if (!mainTank.isLiving()) {
+            g.setColor( Color.RED );
+            g.drawString( "你的坦克已被击毁", 300, 300 );
         }
 
     }
@@ -124,14 +142,6 @@ public class NettyTankFrame extends Frame {
         g.drawImage(offScreenImage, 0, 0, null);
     }
 
-
-    public void addBadTank(NettyTank tank) {
-        tankMap.put( tank.getUuid().toString(), tank );
-    }
-
-    public NettyTank getBadTank(String uuid) {
-        return tankMap.get( uuid );
-    }
 
 
     /**
@@ -177,11 +187,39 @@ public class NettyTankFrame extends Frame {
     }
 
     public void removeBullet(NettyBullet bullet) {
-        bulletMap.remove( bullet.getUuid().toString() );
+        bullets.remove( bullet );
     }
 
     public void addBullet(NettyBullet bullet) {
-        bulletMap.put( bullet.getUuid().toString(), bullet );
+        bullets.add( bullet );
     }
+
+    public void addTank(NettyTank tank) {
+        tanks.add( tank );
+    }
+
+    public void removeTank(NettyTank tank) {
+        tanks.remove( tank );
+    }
+
+    public void addExplode(NettyExplode explode) {
+        explodes.add( explode );
+    }
+
+    public void removeExplode(NettyExplode explode) {
+        explodes.remove( explode );
+    }
+
+    public NettyTank getBadTank(String uuid) {
+        Optional<NettyTank> optional = tanks.stream().filter( o -> o.getUuid().toString().equals( uuid ) ).findFirst();
+
+        return optional.orElse( null );
+    }
+
+    public NettyBullet getBullet(String uuid) {
+        Optional<NettyBullet> optional = bullets.stream().filter( o -> o.getUuid().toString().equals( uuid ) ).findFirst();
+        return optional.orElse( null );
+    }
+
 
 }

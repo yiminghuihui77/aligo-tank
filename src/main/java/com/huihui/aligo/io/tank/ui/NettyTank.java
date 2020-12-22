@@ -105,7 +105,8 @@ public class NettyTank {
      */
     private void paintTank(Graphics graphics) {
         if (!living) {
-            //只渲染存活状态的坦克
+            //只渲染存活状态的坦克 集合中移除
+            NettyTankFrame.getInstance().removeTank( this );
             return;
         }
         //根据坦克方向获取坦克图片资源
@@ -127,7 +128,7 @@ public class NettyTank {
         //画出坦克的uuid
         Color color = graphics.getColor();
         graphics.setColor( Color.ORANGE );
-        graphics.drawString( uuid.toString(), x, y - 10 );
+        graphics.drawString( uuid.toString(), x, y - 5 );
         graphics.setColor( color );
     }
 
@@ -220,7 +221,7 @@ public class NettyTank {
         int bx = x + (NettyTank.WIDTH / 2) - (NettyBullet.WIDTH / 2);
         int by = y + (NettyTank.HEIGHT / 2) - (NettyBullet.HEIGHT / 2);
         //子弹方向与坦克的方向保持一致；坦克打出的子弹不会误伤自己和友军
-        NettyBullet bullet = new NettyBullet( bx, by, dir, group, UUID.randomUUID() );
+        NettyBullet bullet = new NettyBullet( bx, by, dir, group, UUID.randomUUID(), uuid );
                 NettyTankFrame.getInstance().addBullet( bullet );
         //送子弹join的消息
         NettyClient.getInstance().send( new BulletJoinMessage(bullet) );
