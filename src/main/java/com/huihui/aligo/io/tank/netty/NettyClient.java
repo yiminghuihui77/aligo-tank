@@ -47,7 +47,7 @@ public class NettyClient {
     /**
      * 客户端与服务端连接
      */
-    public void connect() {
+    public void connect(String ip) {
        try {
            bootstrap.group(group)
                    .channel( NioSocketChannel.class )
@@ -63,7 +63,7 @@ public class NettyClient {
                                    .addLast( new SimpleTankClientHandler() );
                        }
                    } )
-                   .connect("localhost", 8890)
+                   .connect(ip, 8890)
                    .addListener( new ChannelFutureListener() {
                        @Override
                        public void operationComplete( ChannelFuture future ) throws Exception {

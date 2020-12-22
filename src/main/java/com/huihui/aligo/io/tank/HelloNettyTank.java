@@ -25,6 +25,6 @@ public class HelloNettyTank {
         }).start();
 
         NettyClient client = NettyClient.getInstance();
-        client.connect();
+        client.connect("localhost");
     }
 }
