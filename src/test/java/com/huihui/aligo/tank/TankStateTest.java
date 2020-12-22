@@ -1,8 +1,8 @@
 package com.huihui.aligo.tank;
 
-import com.huihui.aligo.io.tank.TankStateDecoder;
-import com.huihui.aligo.io.tank.TankStateEncoder;
-import com.huihui.aligo.io.tank.TankStateMessage;
+import com.huihui.aligo.io.tank.message.TankStateDecoder;
+import com.huihui.aligo.io.tank.message.TankStateEncoder;
+import com.huihui.aligo.io.tank.message.TankStateMessage;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import io.netty.buffer.ByteBuf;

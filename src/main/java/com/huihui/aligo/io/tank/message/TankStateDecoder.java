@@ -1,4 +1,4 @@
-package com.huihui.aligo.io.tank;
+package com.huihui.aligo.io.tank.message;
 
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
@@ -13,6 +13,7 @@ import java.util.UUID;
  * @author minghui.y
  * @create 2020-12-21 3:53 下午
  **/
+@Deprecated
 public class TankStateDecoder extends ByteToMessageDecoder {
 
     /**

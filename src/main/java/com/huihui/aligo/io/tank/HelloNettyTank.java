@@ -1,5 +1,6 @@
 package com.huihui.aligo.io.tank;
 
+import com.huihui.aligo.io.tank.netty.NettyClient;
 import com.huihui.aligo.io.tank.ui.NettyTankFrame;
 
 /**
@@ -23,7 +24,7 @@ public class HelloNettyTank {
             }
         }).start();
 
-        NettyClient client = new NettyClient();
+        NettyClient client = NettyClient.getInstance();
         client.connect();
     }
 }

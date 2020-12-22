@@ -1,6 +1,9 @@
-package com.huihui.aligo.io.tank;
+package com.huihui.aligo.io.tank.netty;
 
-import com.huihui.aligo.io.tank.ui.NettyTank;
+import com.huihui.aligo.io.tank.message.BaseStateMessage;
+import com.huihui.aligo.io.tank.message.StateMessageDecoder;
+import com.huihui.aligo.io.tank.message.StateMessageEncoder;
+import com.huihui.aligo.io.tank.message.TankStateMessage;
 import com.huihui.aligo.io.tank.ui.NettyTankFrame;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -20,6 +23,12 @@ import lombok.Setter;
 @Setter
 public class NettyClient {
 
+    private static NettyClient INSTANCE = new NettyClient();
+
+    public static NettyClient getInstance() {
+        return INSTANCE;
+    }
+
     //EventLoopGroup：执行任务的线程组，继承自juc.ScheduledExecutorService
     private EventLoopGroup group;
     //辅助启动类
@@ -30,7 +39,7 @@ public class NettyClient {
     private Channel channel;
 
 
-    public NettyClient() {
+    private NettyClient() {
         group = new NioEventLoopGroup();
         bootstrap = new Bootstrap();
     }
@@ -49,8 +58,8 @@ public class NettyClient {
                            ChannelPipeline channelPipeline = ch.pipeline();
                            //先添加编码器&解码器，在添加处理器
                            //所有的数据输出都会经过走编码器！
-                           channelPipeline.addLast( new TankStateEncoder() )
-                                   .addLast( new TankStateDecoder() )
+                           channelPipeline.addLast( new StateMessageEncoder() )
+                                   .addLast( new StateMessageDecoder() )
                                    .addLast( new SimpleTankClientHandler() );
                        }
                    } )
@@ -75,12 +84,22 @@ public class NettyClient {
        }
     }
 
+    /**
+     * 向服务端发送数据
+     * @param message
+     */
+    public void send(BaseStateMessage message) {
+        channel.writeAndFlush( message );
+    }
+
+
+
 
     /**
      * 第二版处理器
      * 适用于处理一种消息类型
      */
-    public static class SimpleTankClientHandler extends SimpleChannelInboundHandler<TankStateMessage> {
+    public static class SimpleTankClientHandler extends SimpleChannelInboundHandler<BaseStateMessage> {
 
         @Override
         public void channelActive( ChannelHandlerContext ctx ) throws Exception {
@@ -89,21 +108,9 @@ public class NettyClient {
         }
 
         @Override
-        protected void channelRead0( ChannelHandlerContext ctx, TankStateMessage msg ) throws Exception {
-            //读取服务端的数据
-            System.out.println("客户端接收：" + msg);
-            //服务端转发的是自己的坦克，或者是已有的地方坦克，跳过
-            if (msg.getUuid().toString().equals( NettyTankFrame.getInstance().getMainTank().getUuid().toString() ) ||
-            NettyTankFrame.getInstance().getBadTank( msg.getUuid().toString() ) != null) {
-                return;
-            }
-
-            //新的玩家（坦克）加入，在自己的list中添加
-            NettyTank newTank = new NettyTank( msg );
-            NettyTankFrame.getInstance().addBadTank( newTank );
-
-            //再次将自己的坦克传到服务端，让新的坦克知道自己
-            ctx.writeAndFlush( new TankStateMessage( NettyTankFrame.getInstance().getMainTank() ) );
+        protected void channelRead0( ChannelHandlerContext ctx, BaseStateMessage msg ) throws Exception {
+            //由消息自己处理
+           msg.handle( ctx );
         }
     }
 

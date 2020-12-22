@@ -1,5 +1,7 @@
-package com.huihui.aligo.io.tank;
+package com.huihui.aligo.io.tank.netty;
 
+import com.huihui.aligo.io.tank.message.StateMessageDecoder;
+import com.huihui.aligo.io.tank.message.StateMessageEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
@@ -38,12 +40,11 @@ public class NettyServer {
                     .childHandler( new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel( SocketChannel socketChannel ) throws Exception {
-//                            System.out.println(socketChannel);
                             //添加处理器
                             ChannelPipeline channelPipeline = socketChannel.pipeline();
                             //先添加解码器，再添加处理器
-                            channelPipeline.addLast( new TankStateDecoder() )
-                                    .addLast( new TankStateEncoder() )
+                            channelPipeline.addLast( new StateMessageDecoder() )
+                                    .addLast( new StateMessageEncoder() )
                                     .addLast(new TankServerChildHandler());
                         }
                     } )

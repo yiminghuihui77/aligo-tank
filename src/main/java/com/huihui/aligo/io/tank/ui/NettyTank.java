@@ -1,6 +1,6 @@
 package com.huihui.aligo.io.tank.ui;
 
-import com.huihui.aligo.io.tank.TankStateMessage;
+import com.huihui.aligo.io.tank.message.TankStateMessage;
 import com.huihui.aligo.tank.constant.Dir;
 import com.huihui.aligo.tank.constant.Group;
 import com.huihui.aligo.tank.utils.PropertyManager;
